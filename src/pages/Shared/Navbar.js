@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { RiMenuFill, RiCloseFill } from "react-icons/ri";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../context/UserAuthContext";
 
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const { userInfo, userSignOut } = useContext(AuthContext);
 
   const menu = [
     { title: "home", to: "/", private: false },
@@ -13,6 +15,12 @@ const Navbar = () => {
 
   const handleMenuButtonClick = () => {
     setShowMenu(!showMenu);
+  };
+
+  const handleSignOut = () => {
+    userSignOut()
+    .then(() => {})
+    .catch(err => console.log(err))
   };
 
   return (
@@ -32,7 +40,7 @@ const Navbar = () => {
           {menu.map((item, index) => (
             <li key={index} className="px-3 hover:underline capitalize">
               <Link to={item.to}>{item.title}</Link>
-            </li>
+            </li> 
           ))}
         </ul>
         {/* ---- Menu for small screen ------ */}
@@ -46,18 +54,47 @@ const Navbar = () => {
               <Link to={item.to}>{item.title}</Link>
             </li>
           ))}
-          <li className="pt-6">
-            <Link to="/sign-in" className="self-center px-3 py-1 font-semibold">Sign in</Link>
+          {
+            !userInfo? 
+            <>
+            <li className="pt-6">
+            <Link to="/sign-in" className="self-center px-3 py-1 font-semibold">
+              Sign-In
+            </Link>
           </li>
           <li>
-            <Link to="/sign-up" className="self-center px-3 py-1 font-semibold">Sign up</Link>
+            <Link to="/sign-up" className="self-center px-3 py-1 font-semibold">
+              Sign-Up
+            </Link>
           </li>
+            </> : 
+            <>
+            <button onClick={handleSignOut} className="self-center px-3 py-1 font-semibold">
+              Sign-Out
+            </button>
+            </>
+          }
         </ul>
         <div className="items-center flex-shrink-0 hidden lg:flex">
-          <Link to="/sign-in" className="self-center px-3 py-1.5 rounded">Sign in</Link>
-          <Link to="/sign-up" className="self-center px-3 py-1.5 font-semibold rounded border border-primary">
-            Sign up
-          </Link>
+          {!userInfo ? (
+            <>
+              <Link to="/sign-in" className="self-center px-3 py-1.5 rounded">
+                Sign-In
+              </Link>
+              <Link
+                to="/sign-up"
+                className="self-center px-3 py-1.5 font-semibold rounded border border-primary"
+              >
+                Sign-Up
+              </Link>
+            </>
+          ) : (
+            <>
+              <button onClick={handleSignOut} className="self-center px-3 py-1.5 font-semibold">
+                Sign-Out
+              </button>
+            </>
+          )}
         </div>
         <button onClick={handleMenuButtonClick} className="lg:hidden">
           {showMenu ? (

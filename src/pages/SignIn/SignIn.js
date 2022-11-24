@@ -1,17 +1,25 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/UserAuthContext";
 import SocialSignUpButton from "../Shared/SocialSignUpButton";
 
 const SignIn = () => {
-  const { createUser, userSignOut } = useContext(AuthContext);
+  const { userSignIn } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || '/';
 
   const handleSignInForm = async(e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
-    console.log(data);
-    
+    const response = await userSignIn(data.email, data.password);
+    if(response.user){
+      toast.success(`Welcome ${response.user.displayName}`);
+      navigate(from, {replace:true});
+    }
   };
 
   return (

@@ -1,5 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Root from "../layout/Root";
+import Category from "../pages/Category/Category";
 import Home from "../pages/Home/Home";
 import SignIn from "../pages/SignIn/SignIn";
 import SignUp from "../pages/SignUp/SignUp";
@@ -21,6 +22,10 @@ const Routes = () => {
                 {
                     path: '/sign-up',
                     element: <SignUp />
+                },
+                {
+                    path: '/category/:id',
+                    element: <Category />
                 }
             ]
         }
