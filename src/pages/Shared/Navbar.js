@@ -47,15 +47,15 @@ const Navbar = () => {
             </li>
           ))}
           <li className="pt-6">
-            <Link className="self-center px-3 py-1 font-semibold">Sign in</Link>
+            <Link to="/sign-in" className="self-center px-3 py-1 font-semibold">Sign in</Link>
           </li>
           <li>
-            <Link className="self-center px-3 py-1 font-semibold">Sign up</Link>
+            <Link to="/sign-up" className="self-center px-3 py-1 font-semibold">Sign up</Link>
           </li>
         </ul>
         <div className="items-center flex-shrink-0 hidden lg:flex">
-          <Link className="self-center px-3 py-1.5 rounded">Sign in</Link>
-          <Link className="self-center px-3 py-1.5 font-semibold rounded border border-primary">
+          <Link to="/sign-in" className="self-center px-3 py-1.5 rounded">Sign in</Link>
+          <Link to="/sign-up" className="self-center px-3 py-1.5 font-semibold rounded border border-primary">
             Sign up
           </Link>
         </div>
