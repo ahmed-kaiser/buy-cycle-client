@@ -1,4 +1,8 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AddProduct from "../dashboardPages/AddProduct";
+import Dashboard from "../dashboardPages/Dashboard";
+import MyProducts from "../dashboardPages/MyProducts";
+import DashboardRoot from "../layout/DashboardRoot";
 import Root from "../layout/Root";
 import Category from "../pages/Category/Category";
 import Home from "../pages/Home/Home";
@@ -26,6 +30,24 @@ const Routes = () => {
                 {
                     path: '/category/:id',
                     element: <Category />
+                }
+            ]
+        },
+        {
+            path: '/dashboard',
+            element: <DashboardRoot />,
+            children: [
+                {
+                    path: '/dashboard',
+                    element: <Dashboard />
+                },
+                {
+                    path: '/dashboard/add-product',
+                    element: <AddProduct />
+                },
+                {
+                    path: '/dashboard/products',
+                    element: <MyProducts />
                 }
             ]
         }

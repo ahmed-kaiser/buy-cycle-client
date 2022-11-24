@@ -24,12 +24,12 @@ const Navbar = () => {
   };
 
   return (
-    <header className="p-4 bg-gray-50">
+    <nav className="p-4 bg-gray-50">
       <div className="container flex justify-between items-center h-16 mx-auto">
         <Link
           to="/"
           aria-label="Back to homepage"
-          className="flex items-center p-2"
+          className="flex items-center"
         >
           <h1 className="font-serif font-bold text-2xl text-primary">
             BuyCycle
@@ -104,7 +104,7 @@ const Navbar = () => {
           )}
         </button>
       </div>
-    </header>
+    </nav>
   );
 };
 
