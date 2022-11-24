@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/UserAuthContext";
 import SocialSignUpButton from "../Shared/SocialSignUpButton";
 
 const SignIn = () => {
-  const handleSignInForm = (e) => {
+  const { createUser, userSignOut } = useContext(AuthContext);
+
+  const handleSignInForm = async(e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
     console.log(data);
+    
   };
+
   return (
     <section className="min-h-screen py-16 px-4">
       <div className="w-full max-w-md p-4 rounded-md shadow sm:p-8 mx-auto border">
