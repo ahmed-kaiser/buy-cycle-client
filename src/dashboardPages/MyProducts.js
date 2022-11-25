@@ -11,35 +11,42 @@ const MyProducts = () => {
     queryKey: ["products"],
     queryFn: async () => {
       const response = await fetch(
-        `http://localhost:5000/products?email=${userInfo.email}`
+        `http://localhost:5000/products?email=${userInfo.email}`,
+        {
+          headers: {
+            authorization: `bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       const data = await response.json();
       return data;
     },
   });
 
-  const handleDelete = async(id) => {
+  const handleDelete = async (id) => {
     axios({
-        method: 'DELETE',
-        url:(`http://localhost:5000/products?email=${userInfo.email}&id=${id}`)
+      method: "DELETE",
+      headers: {
+        authorization: `bearer ${localStorage.getItem("token")}`,
+      },
+      url: `http://localhost:5000/products?email=${userInfo.email}&id=${id}`,
     })
-    .then(res => {
-        if(res.acknowledged) {
-            toast.success("Product successfully deleted");
-            refetch();
+      .then((res) => {
+        if (res.data.acknowledged) {
+          toast.success("Product successfully deleted");
+          refetch();
         }
-    })
-    .catch(err => toast.error(err))
+      })
+      .catch((err) => toast.error(err));
   };
 
   return (
-      <div>
-        <h1 className="font-medium text-gray-600 text-xl border-b-2 pb-1 border-gray-100">
-          All Products
-        </h1>
-        {
-            products.length > 0? 
-            <div className="overflow-x-auto max-w-5xl mx-auto mt-6">
+    <div>
+      <h1 className="font-medium text-gray-600 text-xl border-b-2 pb-1 border-gray-100">
+        All Products
+      </h1>
+      {products?.length > 0 ? (
+        <div className="overflow-x-auto max-w-5xl mx-auto mt-6">
           <table className="min-w-full text-xs md:text-sm">
             <colgroup>
               <col />
@@ -75,19 +82,31 @@ const MyProducts = () => {
                     <p>${product.selling_price}</p>
                   </td>
                   <td className="p-2">
-                  <button className="bg-gray-400 hover:bg-gray-500 p-1 rounded-md text-gray-50 font-medium">Disabled</button>
+                    {product.available && (
+                      <button className="bg-gray-400 hover:bg-gray-500 p-1 rounded-md text-gray-50 font-medium">
+                        Disabled
+                      </button>
+                    )}
                   </td>
                   <td className="p-2">
-                      <button onClick={() => handleDelete(product._id)} className="bg-red-400 hover:bg-red-500 p-1 rounded-md text-gray-50 font-medium">Delete</button>
+                    <button
+                      onClick={() => handleDelete(product._id)}
+                      className="bg-red-400 hover:bg-red-500 p-1 rounded-md text-gray-50 font-medium"
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </div> :
-        <p className="text-center mt-4 font-medium text-gray-500">No product added</p>
-        }
-      </div>
+        </div>
+      ) : (
+        <p className="text-center mt-4 font-medium text-gray-500">
+          No product added
+        </p>
+      )}
+    </div>
   );
 };
 

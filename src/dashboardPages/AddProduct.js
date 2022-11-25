@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/UserAuthContext";
 
 const AddProduct = () => {
+  const { userInfo } = useContext(AuthContext);
   const navigate = useNavigate();
   const [btnState, setBtnState] = useState(false);
 
@@ -31,17 +33,18 @@ const AddProduct = () => {
         ...data,
         image: imageURL.data.url,
         postedAt: new Date(),
+        available: true,
+        ownerEmail: userInfo.email
       };
-      console.log(productData);
-      const dbResponse = await fetch("http://localhost:5000/products", {
+      const dbResponse = await fetch(`http://localhost:5000/products?email=${userInfo.email}`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
+          authorization: `bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify(productData),
       });
       const dbData = await dbResponse.json();
-      console.log(dbData);
       if (dbData.acknowledged) {
         e.target.reset();
         setBtnState(false);
@@ -196,7 +199,11 @@ const AddProduct = () => {
               disabled={btnState}
               className="bg-sky-400 px-8 py-1.5 rounded-md font-medium text-white"
             >
-              Add
+              {
+                btnState? 
+                <span className="w-6 h-6 border-2 border-dashed rounded-full animate-spin border-white block"></span>
+                : <span>Add</span>
+              }
             </button>
           </div>
         </div>

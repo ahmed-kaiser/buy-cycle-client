@@ -9,6 +9,7 @@ import Home from "../pages/Home/Home";
 import SignIn from "../pages/SignIn/SignIn";
 import SignUp from "../pages/SignUp/SignUp";
 import RequiredAuth from "../privateRoute/RequiredAuth";
+import RequiredSellerAccount from "../privateRoute/RequiredSellerAccount";
 
 const Routes = () => {
     const router = createBrowserRouter([
@@ -44,11 +45,11 @@ const Routes = () => {
                 },
                 {
                     path: '/dashboard/add-product',
-                    element: <AddProduct />
+                    element: <RequiredSellerAccount><AddProduct /></RequiredSellerAccount>
                 },
                 {
                     path: '/dashboard/products',
-                    element: <MyProducts />
+                    element: <RequiredSellerAccount><MyProducts /></RequiredSellerAccount>
                 }
             ]
         }
