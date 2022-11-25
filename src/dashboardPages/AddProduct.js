@@ -2,11 +2,13 @@ import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/UserAuthContext";
+import useLoadCategories from "../hooks/useLoadCategories";
 
 const AddProduct = () => {
   const { userInfo } = useContext(AuthContext);
   const navigate = useNavigate();
   const [btnState, setBtnState] = useState(false);
+  const categories = useLoadCategories();
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -34,7 +36,7 @@ const AddProduct = () => {
         image: imageURL.data.url,
         postedAt: new Date(),
         available: true,
-        ownerEmail: userInfo.email
+        sellerEmail: userInfo.email
       };
       const dbResponse = await fetch(`http://localhost:5000/products?email=${userInfo.email}`, {
         method: "POST",
@@ -143,6 +145,22 @@ const AddProduct = () => {
               required
               className="w-full border px-2 py-1 bg-gray-50 border-gray-200 rounded-md focus:border-primary"
             />
+          </div>
+          <div className="col-span-full sm:col-span-2">
+            <label htmlFor="condition" className="text-sm pl-1 text-gray-600">
+              Category*
+            </label>
+            <select
+              name="categoryId"
+              required
+              className="w-full border-gray-200 bg-gray-50 rounded-md focus:border-primary py-1.5"
+            >
+              {
+                categories?.map(category => (
+                  <option key={category._id} value={category._id}>{category.title}</option>
+                ))
+              }
+            </select>
           </div>
           <div className="col-span-full sm:col-span-2">
             <label htmlFor="condition" className="text-sm pl-1 text-gray-600">

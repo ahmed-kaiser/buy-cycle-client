@@ -31,7 +31,7 @@ const Routes = () => {
                 },
                 {
                     path: '/category/:id',
-                    element: <Category />
+                    element: <RequiredAuth><Category /></RequiredAuth>,
                 }
             ]
         },

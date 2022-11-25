@@ -1,19 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { Link } from "react-router-dom";
+import useLoadCategories from "../../hooks/useLoadCategories";
 
 const Categories = () => {
-  const { data: categories } = useQuery({
-    queryKey: ["categories"],
-    queryFn: async () => {
-      const res = await fetch("http://localhost:5000/categories");
-      const data = await res.json();
-      return data;
-    },
-  });
+  const categories = useLoadCategories();
 
   return (
-    <section>
       <section className="p-6 my-6">
         <div className="container max-w-screen-lg grid gap-6 mx-auto grid-cols-2 sm:grid-cols-5 justify-items-center">
           {categories?.map((item) => (
@@ -34,7 +26,6 @@ const Categories = () => {
           ))}
         </div>
       </section>
-    </section>
   );
 };
 
