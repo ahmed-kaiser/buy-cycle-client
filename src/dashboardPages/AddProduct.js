@@ -54,7 +54,7 @@ const AddProduct = () => {
   };
 
   return (
-    <section className="grow md:px-6 py-6">
+    <div>
       <h1 className="font-medium text-gray-600 text-xl border-b-2 pb-1 border-gray-100">
         Add a product
       </h1>
@@ -201,7 +201,7 @@ const AddProduct = () => {
           </div>
         </div>
       </form>
-    </section>
+    </div>
   );
 };
 

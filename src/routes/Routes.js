@@ -8,6 +8,7 @@ import Category from "../pages/Category/Category";
 import Home from "../pages/Home/Home";
 import SignIn from "../pages/SignIn/SignIn";
 import SignUp from "../pages/SignUp/SignUp";
+import RequiredAuth from "../privateRoute/RequiredAuth";
 
 const Routes = () => {
     const router = createBrowserRouter([
@@ -35,7 +36,7 @@ const Routes = () => {
         },
         {
             path: '/dashboard',
-            element: <DashboardRoot />,
+            element: <RequiredAuth><DashboardRoot /></RequiredAuth>,
             children: [
                 {
                     path: '/dashboard',

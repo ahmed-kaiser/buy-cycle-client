@@ -10,10 +10,10 @@ const SideNavbar = () => {
             <li className="hover:font-medium">
               <Link to="/dashboard/products">My products</Link>
             </li>
-            <li>
+            <li className="hover:font-medium">
               <Link to="/dashboard/add-product">Add a products</Link>
             </li>
-            <li>
+            <li className="hover:font-medium">
               <Link>My Buyers</Link>
             </li>
           </ul>

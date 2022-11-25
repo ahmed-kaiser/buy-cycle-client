@@ -9,7 +9,9 @@ const DashboardRoot = () => {
         <Navbar />
         <main className="container mx-auto flex px-4">
             <SideNavbar />
-            <Outlet />
+            <section className="grow px-4 md:px-6 py-6">
+                <Outlet />
+            </section>
         </main>
         </>
     );
