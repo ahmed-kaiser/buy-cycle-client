@@ -1,21 +1,34 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../context/UserAuthContext";
+import useCheckUserRole from "../hooks/useCheckUserRole";
 
 const SideNavbar = () => {
+  const { userInfo } = useContext(AuthContext);
+  const [role] = useCheckUserRole(userInfo?.email);
   return (
     <section className="hidden lg:inline-block">
       <div className="h-screen p-3 w-48 md:w-56 border-r-2">
         <div className="space-y-3">
           <ul className="pt-2 pb-4 space-y-3">
-            <li className="hover:font-medium">
-              <Link to="/dashboard/add-product">Add a products</Link>
-            </li>
-            <li className="hover:font-medium">
-              <Link to="/dashboard/products">My products</Link>
-            </li>
-            <li className="hover:font-medium">
-              <Link to='/dashboard/my-buyers'>My Buyers</Link>
-            </li>
+            {role === "seller" ? (
+              <>
+                <LinkItem to="/dashboard/add-product">Add a products</LinkItem>
+                <LinkItem to="/dashboard/products">My products</LinkItem>
+                <LinkItem to="/dashboard/my-buyers">My Buyers</LinkItem>
+              </>
+            ) : role === "admin" ? (
+              <>
+                <LinkItem to="">All Buyer</LinkItem>
+                <LinkItem to="">All Seller</LinkItem>
+                <LinkItem to="">Report</LinkItem>
+              </>
+            ) : (
+              <>
+                <LinkItem to="">My Booking</LinkItem>
+                <LinkItem to="">Wishlist</LinkItem>
+              </>
+            )}
           </ul>
         </div>
       </div>
@@ -23,4 +36,11 @@ const SideNavbar = () => {
   );
 };
 
+const LinkItem = ({ to, children }) => {
+  return (
+    <li className="hover:font-medium text-gray-600">
+      <NavLink end className={({isActive}) => isActive? 'font-medium underline' : '' } to={to}>{children}</NavLink>
+    </li>
+  );
+};
 export default SideNavbar;

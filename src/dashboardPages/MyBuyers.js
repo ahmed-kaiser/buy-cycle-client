@@ -1,24 +1,27 @@
-import { useQuery } from '@tanstack/react-query';
-import React, { useContext } from 'react';
-import { AuthContext } from '../context/UserAuthContext';
+import { useQuery } from "@tanstack/react-query";
+import React, { useContext } from "react";
+import { AuthContext } from "../context/UserAuthContext";
 
 const MyBuyers = () => {
-    const { userInfo } = useContext(AuthContext);
-    const { data:bookings } = useQuery({
-        queryKey: ['booking'],
-        queryFn: async() => {
-            const res = await fetch(`http://localhost:5000/bookings/seller?email=${userInfo.email}`, {
-                headers: {
-                    authorization: `bearer ${localStorage.getItem('token')}`
-                }
-            });
-            const data = res.json();
-            return data
+  const { userInfo } = useContext(AuthContext);
+  const { data: bookings } = useQuery({
+    queryKey: ["booking"],
+    queryFn: async () => {
+      const res = await fetch(
+        `http://localhost:5000/bookings/seller?email=${userInfo.email}`,
+        {
+          headers: {
+            authorization: `bearer ${localStorage.getItem("token")}`,
+          },
         }
-    });
+      );
+      const data = res.json();
+      return data;
+    },
+  });
 
-    return (
-        <div>
+  return (
+    <div>
       <h1 className="font-medium text-gray-600 text-xl border-b-2 pb-1 border-gray-100">
         My Buyers
       </h1>
@@ -36,7 +39,8 @@ const MyBuyers = () => {
                 <th className="p-2">#</th>
                 <th className="p-2">Product Title</th>
                 <th className="p-2">Buyer Info</th>
-                <th className="p-2">Cancel Booking</th>
+                <th className="p-2">Payment</th>
+                <th className="p-2">Booking</th>
               </tr>
             </thead>
             <tbody>
@@ -54,11 +58,22 @@ const MyBuyers = () => {
                     <p>{item.buyerLocation}</p>
                   </td>
                   <td className="p-2">
-                    <button
-                      className="bg-red-400 hover:bg-red-500 p-1 rounded-md text-gray-50 font-medium"
-                    >
-                      Cancel
-                    </button>
+                    {item.paid ? (
+                      <p className="text-green-500">Paid</p>
+                    ) : (
+                      <p>Not Paid</p>
+                    )}
+                  </td>
+                  <td className="p-2">
+                    {!item.paid ? (
+                      <button className="bg-red-400 hover:bg-red-500 p-1 rounded-md text-gray-50 font-medium">
+                        Cancel
+                      </button>
+                    ) : (
+                      <button className="bg-yellow-500 hover:bg-red-600 p-1 rounded-md text-gray-50 font-medium">
+                        Shipped
+                      </button>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -71,7 +86,7 @@ const MyBuyers = () => {
         </p>
       )}
     </div>
-    );
+  );
 };
 
 export default MyBuyers;

@@ -24,12 +24,13 @@ const Category = () => {
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
     const booking = {
-        customerEmail: userInfo.email,
-        customerPhone: data.phone,
-        customerLocation: data.location,
+        buyerEmail: userInfo.email,
+        buyerPhone: data.phone,
+        buyerLocation: data.location,
         productId: bookingData._id,
         productTitle: bookingData.title,
-        sellerEmail: bookingData.sellerEmail
+        sellerEmail: bookingData.sellerEmail,
+        paid: false
     };
 
     axios({

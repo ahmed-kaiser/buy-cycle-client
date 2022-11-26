@@ -1,11 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../context/UserAuthContext";
 
 const MyProducts = () => {
   const { userInfo } = useContext(AuthContext);
+  const [showModal, setShowModal] = useState(false);
+  const [deleteItem, setDeleteItem] = useState(null)
+
+  const handleModal = () => {
+    setShowModal(!showModal);
+  }
+
+  const handleDeleteBtn = (product) => {
+    setDeleteItem(product);
+    handleModal();
+  }
 
   const { data: products, refetch } = useQuery({
     queryKey: ["products"],
@@ -23,16 +34,17 @@ const MyProducts = () => {
     },
   });
 
-  const handleDelete = async (id) => {
+  const performDelete = async () => {
     axios({
       method: "DELETE",
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url: `http://localhost:5000/products?email=${userInfo.email}&id=${id}`,
+      url: `http://localhost:5000/products?email=${userInfo.email}&id=${deleteItem._id}`,
     })
       .then((res) => {
         if (res.data.acknowledged) {
+          handleModal();
           toast.success("Product successfully deleted");
           refetch();
         }
@@ -85,7 +97,7 @@ const MyProducts = () => {
                   <td className="p-2">
                     {
                       product.available? 
-                      <p>Yes</p> : <p>Booked</p>
+                      <p>Yes</p> : <p>Sold Out</p>
                     }
                   </td>
                   <td className="p-2">
@@ -97,7 +109,7 @@ const MyProducts = () => {
                   </td>
                   <td className="p-2">
                     <button
-                      onClick={() => handleDelete(product._id)}
+                      onClick={() => handleDeleteBtn(product)}
                       className="bg-red-400 hover:bg-red-500 p-1 rounded-md text-gray-50 font-medium"
                     >
                       Delete
@@ -113,8 +125,28 @@ const MyProducts = () => {
           No product added
         </p>
       )}
+      <DeleteConfirmModal
+        itemTitle={deleteItem?.title} 
+        showModal={showModal} 
+        handleModal={handleModal}
+        handleConfirm={performDelete}
+      />
     </div>
   );
 };
+
+const DeleteConfirmModal = ({ showModal, handleModal, itemTitle, handleConfirm }) => {
+  return(
+    <section className={`absolute w-full h-full ${!showModal && 'hidden'}`}>
+      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-xs p-4 bg-gray-200 rounded-md shadow-md text-center">
+          <p>Are you sure you want to delete "<span className="font-medium">{itemTitle}</span>"</p>
+          <div className="space-x-2 mt-3">
+            <button onClick={handleConfirm} className="py-1 px-2 text-white font-medium bg-red-400 hover:bg-red-500 rounded-md">Confirm</button>
+            <button onClick={handleModal} className="py-1 px-2 bg-green-500 hover:bg-green-600 rounded-md text-white font-medium">Cancel</button>
+          </div>
+      </div>
+    </section>
+  )
+}
 
 export default MyProducts;
