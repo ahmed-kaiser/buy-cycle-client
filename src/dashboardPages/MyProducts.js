@@ -1,28 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import toast from "react-hot-toast";
+import { ModalContext } from "../context/GlobalModalContext";
 import { AuthContext } from "../context/UserAuthContext";
 
 const MyProducts = () => {
   const { userInfo } = useContext(AuthContext);
-  const [showModal, setShowModal] = useState(false);
-  const [deleteItem, setDeleteItem] = useState(null)
-
-  const handleModal = () => {
-    setShowModal(!showModal);
-  }
-
-  const handleDeleteBtn = (product) => {
-    setDeleteItem(product);
-    handleModal();
-  }
+  const { handleShowModal, modalData } = useContext(ModalContext);
 
   const { data: products, refetch } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
       const response = await fetch(
-        `http://localhost:5000/products?email=${userInfo.email}`,
+        `http://localhost:5000/products?email=${userInfo?.email}`,
         {
           headers: {
             authorization: `bearer ${localStorage.getItem("token")}`,
@@ -34,22 +25,67 @@ const MyProducts = () => {
     },
   });
 
-  const performDelete = async () => {
+  const handleDeleteBtn = (title, id) => {
+    handleShowModal();
+    modalData(title, id, performDelete);
+  };
+
+  const performDelete = async (id) => {
     axios({
       method: "DELETE",
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url: `http://localhost:5000/products?email=${userInfo.email}&id=${deleteItem._id}`,
+      url: `http://localhost:5000/products?email=${userInfo.email}&id=${id}`,
     })
       .then((res) => {
         if (res.data.acknowledged) {
-          handleModal();
           toast.success("Product successfully deleted");
           refetch();
         }
       })
-      .catch((err) => toast.error(err));
+      .catch((err) => console.log(err));
+  };
+
+  const addToAdvertiseList = (id) => {
+    const data = {
+      productId: id,
+      sellerEmail: userInfo.email,
+    };
+
+    axios({
+      url: `http://localhost:5000/advertise?email=${userInfo.email}`,
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+        authorization: `bearer ${localStorage.getItem("token")}`,
+      },
+      data: data,
+    })
+      .then((res) => {
+        if (res.data.acknowledged) {
+          toast.success("Enabled advertise....");
+          refetch();
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const removeFromAdvertiseList = (id) => {
+    axios({
+      url: `http://localhost:5000/advertise/${id}?email=${userInfo.email}`,
+      method: "delete",
+      headers: {
+        authorization: `bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => {
+        if (res.data.acknowledged) {
+          toast.success("Disabled advertise....");
+          refetch();
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -95,21 +131,34 @@ const MyProducts = () => {
                     <p>${product.selling_price}</p>
                   </td>
                   <td className="p-2">
-                    {
-                      product.available? 
-                      <p>Yes</p> : <p>Sold Out</p>
-                    }
+                    {product.available ? <p>Yes</p> : <p>Sold Out</p>}
                   </td>
                   <td className="p-2">
                     {product.available && (
-                      <button className="bg-gray-400 hover:bg-gray-500 p-1 rounded-md text-gray-50 font-medium">
-                        Disabled
-                      </button>
+                      <>
+                        {product.advertise?._id ? (
+                          <button
+                            onClick={() => removeFromAdvertiseList(product._id)}
+                            className="bg-green-400 hover:bg-green-500 py-1 px-2 rounded-md text-gray-50 font-medium"
+                          >
+                            Enabled
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => addToAdvertiseList(product._id)}
+                            className="bg-gray-400 hover:bg-gray-500 py-1 px-2 rounded-md text-gray-50 font-medium"
+                          >
+                            Disabled
+                          </button>
+                        )}
+                      </>
                     )}
                   </td>
                   <td className="p-2">
                     <button
-                      onClick={() => handleDeleteBtn(product)}
+                      onClick={() =>
+                        handleDeleteBtn(product.title, product._id)
+                      }
                       className="bg-red-400 hover:bg-red-500 p-1 rounded-md text-gray-50 font-medium"
                     >
                       Delete
@@ -125,28 +174,8 @@ const MyProducts = () => {
           No product added
         </p>
       )}
-      <DeleteConfirmModal
-        itemTitle={deleteItem?.title} 
-        showModal={showModal} 
-        handleModal={handleModal}
-        handleConfirm={performDelete}
-      />
     </div>
   );
 };
-
-const DeleteConfirmModal = ({ showModal, handleModal, itemTitle, handleConfirm }) => {
-  return(
-    <section className={`absolute w-full h-full ${!showModal && 'hidden'}`}>
-      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-xs p-4 bg-gray-200 rounded-md shadow-md text-center">
-          <p>Are you sure you want to delete "<span className="font-medium">{itemTitle}</span>"</p>
-          <div className="space-x-2 mt-3">
-            <button onClick={handleConfirm} className="py-1 px-2 text-white font-medium bg-red-400 hover:bg-red-500 rounded-md">Confirm</button>
-            <button onClick={handleModal} className="py-1 px-2 bg-green-500 hover:bg-green-600 rounded-md text-white font-medium">Cancel</button>
-          </div>
-      </div>
-    </section>
-  )
-}
 
 export default MyProducts;

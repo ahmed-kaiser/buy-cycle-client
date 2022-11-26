@@ -19,8 +19,8 @@ const SideNavbar = () => {
               </>
             ) : role === "admin" ? (
               <>
-                <LinkItem to="">All Buyer</LinkItem>
-                <LinkItem to="">All Seller</LinkItem>
+                <LinkItem to="/dashboard/all-buyer">All Buyer</LinkItem>
+                <LinkItem to="/dashboard/all-seller">All Seller</LinkItem>
                 <LinkItem to="">Report</LinkItem>
               </>
             ) : (

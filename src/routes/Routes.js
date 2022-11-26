@@ -1,5 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AddProduct from "../dashboardPages/AddProduct";
+import AllBuyer from "../dashboardPages/AllBuyer";
+import AllSeller from "../dashboardPages/AllSeller";
 import Dashboard from "../dashboardPages/Dashboard";
 import MyBuyers from "../dashboardPages/MyBuyers";
 import MyProducts from "../dashboardPages/MyProducts";
@@ -9,6 +11,7 @@ import Category from "../pages/Category/Category";
 import Home from "../pages/Home/Home";
 import SignIn from "../pages/SignIn/SignIn";
 import SignUp from "../pages/SignUp/SignUp";
+import RequireAdmin from "../privateRoute/RequireAdmin";
 import RequiredAuth from "../privateRoute/RequiredAuth";
 import RequiredSellerAccount from "../privateRoute/RequiredSellerAccount";
 
@@ -55,6 +58,14 @@ const Routes = () => {
                 {
                     path: '/dashboard/my-buyers',
                     element: <RequiredSellerAccount><MyBuyers /></RequiredSellerAccount>
+                },
+                {
+                    path: '/dashboard/all-seller',
+                    element: <RequireAdmin><AllSeller /></RequireAdmin>
+                },
+                {
+                    path: '/dashboard/all-buyer',
+                    element: <RequireAdmin><AllBuyer /></RequireAdmin>
                 }
             ]
         }

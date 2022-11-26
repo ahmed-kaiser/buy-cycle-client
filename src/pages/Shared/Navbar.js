@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RiMenuFill, RiCloseFill } from "react-icons/ri";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/UserAuthContext";
@@ -6,6 +6,7 @@ import { AuthContext } from "../../context/UserAuthContext";
 const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const { userInfo, userSignOut } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const menu = [
     { title: "home", to: "/", private: false },
@@ -19,7 +20,7 @@ const Navbar = () => {
 
   const handleSignOut = () => {
     userSignOut()
-    .then(() => {})
+    .then(() => navigate('/'))
     .catch(err => console.log(err))
   };
 

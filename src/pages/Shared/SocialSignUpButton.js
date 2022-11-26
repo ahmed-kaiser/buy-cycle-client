@@ -21,7 +21,7 @@ const SocialSignUpButton = () => {
           username: user.displayName,
           email: user.email,
           photoURL: user.photoURL,
-          account_type: "buyer",
+          role: "buyer",
         };
         axios({
           method: "POST",

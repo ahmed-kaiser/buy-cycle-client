@@ -40,7 +40,7 @@ const UserAuthContext = ({ children }) => {
   };
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unSubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserInfo(user);
       } else {
@@ -48,6 +48,8 @@ const UserAuthContext = ({ children }) => {
       }
       setIsLoading(false);
     });
+
+    return () => unSubscribe();
   }, []);
 
   const sharedData = {

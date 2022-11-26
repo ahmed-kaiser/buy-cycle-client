@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import UserAuthContext from './context/UserAuthContext';
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import GlobalModalContext from './context/GlobalModalContext';
 
 const queryClient = new QueryClient();
 
@@ -13,7 +14,9 @@ root.render(
   <React.StrictMode>
     <UserAuthContext>
       <QueryClientProvider client={queryClient}>
+        <GlobalModalContext>
         <App />
+        </GlobalModalContext>
       </QueryClientProvider>
     </UserAuthContext>
   </React.StrictMode>
