@@ -62,6 +62,7 @@ const MyProducts = () => {
                 <th className="p-2">Image</th>
                 <th className="p-2">Title</th>
                 <th className="p-2">Selling Price</th>
+                <th className="p-2">Available</th>
                 <th className="p-2">Advertise</th>
                 <th className="p-2">Delete</th>
               </tr>
@@ -80,6 +81,12 @@ const MyProducts = () => {
                   </td>
                   <td className="p-2">
                     <p>${product.selling_price}</p>
+                  </td>
+                  <td className="p-2">
+                    {
+                      product.available? 
+                      <p>Yes</p> : <p>Booked</p>
+                    }
                   </td>
                   <td className="p-2">
                     {product.available && (

@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AddProduct from "../dashboardPages/AddProduct";
 import Dashboard from "../dashboardPages/Dashboard";
+import MyBuyers from "../dashboardPages/MyBuyers";
 import MyProducts from "../dashboardPages/MyProducts";
 import DashboardRoot from "../layout/DashboardRoot";
 import Root from "../layout/Root";
@@ -50,6 +51,10 @@ const Routes = () => {
                 {
                     path: '/dashboard/products',
                     element: <RequiredSellerAccount><MyProducts /></RequiredSellerAccount>
+                },
+                {
+                    path: '/dashboard/my-buyers',
+                    element: <RequiredSellerAccount><MyBuyers /></RequiredSellerAccount>
                 }
             ]
         }

@@ -8,13 +8,13 @@ const SideNavbar = () => {
         <div className="space-y-3">
           <ul className="pt-2 pb-4 space-y-3">
             <li className="hover:font-medium">
-              <Link to="/dashboard/products">My products</Link>
-            </li>
-            <li className="hover:font-medium">
               <Link to="/dashboard/add-product">Add a products</Link>
             </li>
             <li className="hover:font-medium">
-              <Link>My Buyers</Link>
+              <Link to="/dashboard/products">My products</Link>
+            </li>
+            <li className="hover:font-medium">
+              <Link to='/dashboard/my-buyers'>My Buyers</Link>
             </li>
           </ul>
         </div>

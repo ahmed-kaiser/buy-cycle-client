@@ -42,9 +42,10 @@ const SocialSignUpButton = () => {
       const token = await getToken.json();
       if (token) {
         localStorage.setItem("token", token.token);
+        navigate(from, { replace:true })
       }
     } catch (err) {
-      toast.error(err);
+      console.log(err);
     }
   };
 
