@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../context/UserAuthContext";
 
 const MyBooking = () => {
@@ -23,7 +24,9 @@ const MyBooking = () => {
       <h1 className="font-medium text-gray-600 text-xl border-b-2 pb-1 border-gray-100">
         My Bookings
       </h1>
-      <div className="overflow-x-auto max-w-5xl mx-auto mt-6">
+      {
+        bookings.length > 0? 
+        <div className="overflow-x-auto max-w-5xl mx-auto mt-6">
         <table className="min-w-full text-xs md:text-sm">
           <colgroup>
             <col />
@@ -66,9 +69,9 @@ const MyBooking = () => {
                       Paid
                     </span>
                   ) : (
-                    <button className="bg-gray-500 hover:bg-gray-600 py-1 px-2 rounded-md text-gray-50 font-medium">
-                      Not Paid
-                    </button>
+                    <Link to={`/dashboard/payment/${item._id}`} className="bg-gray-500 hover:bg-gray-600 py-1 px-2 rounded-md text-gray-50 font-medium">
+                       Pay
+                    </Link>
                   )}
                 </td>
               </tr>
@@ -76,6 +79,11 @@ const MyBooking = () => {
           </tbody>
         </table>
       </div>
+      :
+      <p className="text-center mt-4 font-medium text-gray-500">
+      No booking done yet
+    </p>
+      }
     </div>
   );
 };

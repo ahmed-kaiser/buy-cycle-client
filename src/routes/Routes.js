@@ -7,7 +7,7 @@ import MyBooking from "../dashboardPages/MyBooking";
 import MyBuyers from "../dashboardPages/MyBuyers";
 import MyProducts from "../dashboardPages/MyProducts";
 import MyWishlist from "../dashboardPages/MyWishlist";
-import Payment from "../dashboardPages/Payment";
+import Payment from "../dashboardPages/Payment/Payment";
 import ReportedItem from "../dashboardPages/ReportedItem";
 import DashboardRoot from "../layout/DashboardRoot";
 import Root from "../layout/Root";
@@ -68,7 +68,7 @@ const Routes = () => {
                     element: <MyWishlist />
                 },
                 {
-                    path: '/dashboard/payment',
+                    path: '/dashboard/payment/:id',
                     element: <Payment />
                 },
                 {

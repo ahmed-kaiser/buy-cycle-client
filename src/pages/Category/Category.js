@@ -30,6 +30,7 @@ const Category = () => {
         productId: registerData._id,
         productTitle: registerData.title,
         sellerEmail: registerData.sellerEmail,
+        price: registerData.selling_price,
         paid: false
     };
 

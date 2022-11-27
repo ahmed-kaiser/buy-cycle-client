@@ -3,7 +3,13 @@ import React from "react";
 import toast from "react-hot-toast";
 import { RiHeartAddLine, RiCheckboxCircleFill } from "react-icons/ri";
 
-const ProductDetailsCard = ({ data, setRegisterData, handleClick, email, setOperationType }) => {
+const ProductDetailsCard = ({
+  data,
+  setRegisterData,
+  handleClick,
+  email,
+  setOperationType,
+}) => {
   const handleButtonClick = (operationType) => {
     handleClick();
     setRegisterData(data);
@@ -70,32 +76,24 @@ const ProductDetailsCard = ({ data, setRegisterData, handleClick, email, setOper
           <p className="capitalize flex items-center gap-1">
             <span className="font-medium mr-1">Seller Name:</span>{" "}
             {data.sellerDetails[0].username}
-            {
-              data.sellerDetails[0].verified && <RiCheckboxCircleFill className="text-green-500" />
-            }
+            {data.sellerDetails[0].verified && (
+              <RiCheckboxCircleFill className="text-green-500" />
+            )}
           </p>
         </div>
         <div className="mt-6 text-center space-x-2">
-          {data.available ? (
-            <>
-              <button
-                onClick={() => handleButtonClick("booking")}
-                className="bg-sky-400 py-1 px-3 text-gray-200 font-medium rounded-md hover:bg-sky-500 hover:text-gray-50 duration-300"
-              >
-                Book Now
-              </button>
-              <button onClick={() => handleButtonClick("report")} className="bg-yellow-600 py-1 px-3 text-gray-200 font-medium rounded-md hover:bg-yellow-500 hover:text-gray-50 duration-300">
-                Report
-              </button>
-            </>
-          ) : (
-            <button
-              disabled
-              className="bg-gray-700 py-1 px-6 text-gray-200 font-medium rounded-md"
-            >
-              Booked
-            </button>
-          )}
+          <button
+            onClick={() => handleButtonClick("booking")}
+            className="bg-sky-400 py-1 px-3 text-gray-200 font-medium rounded-md hover:bg-sky-500 hover:text-gray-50 duration-300"
+          >
+            Book Now
+          </button>
+          <button
+            onClick={() => handleButtonClick("report")}
+            className="bg-yellow-600 py-1 px-3 text-gray-200 font-medium rounded-md hover:bg-yellow-500 hover:text-gray-50 duration-300"
+          >
+            Report
+          </button>
         </div>
       </div>
     </div>
