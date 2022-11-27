@@ -22,6 +22,7 @@ const SocialSignUpButton = () => {
           email: user.email,
           photoURL: user.photoURL,
           role: "buyer",
+          wishlist: []
         };
         axios({
           method: "POST",
@@ -34,7 +35,7 @@ const SocialSignUpButton = () => {
               navigate(from, { replace: true });
             }
           })
-          .catch((err) => toast.error(err));
+          .catch((err) => console.log(err));
       }
       const getToken = await fetch(
         `http://localhost:5000/jwt-token?email=${response.user.email}`

@@ -3,8 +3,10 @@ import AddProduct from "../dashboardPages/AddProduct";
 import AllBuyer from "../dashboardPages/AllBuyer";
 import AllSeller from "../dashboardPages/AllSeller";
 import Dashboard from "../dashboardPages/Dashboard";
+import MyBooking from "../dashboardPages/MyBooking";
 import MyBuyers from "../dashboardPages/MyBuyers";
 import MyProducts from "../dashboardPages/MyProducts";
+import MyWishlist from "../dashboardPages/MyWishlist";
 import DashboardRoot from "../layout/DashboardRoot";
 import Root from "../layout/Root";
 import Category from "../pages/Category/Category";
@@ -46,6 +48,14 @@ const Routes = () => {
                 {
                     path: '/dashboard',
                     element: <Dashboard />
+                },
+                {
+                    path: '/dashboard/my-booking',
+                    element: <MyBooking />
+                },
+                {
+                    path: '/dashboard/my-wishlist',
+                    element: <MyWishlist />
                 },
                 {
                     path: '/dashboard/add-product',

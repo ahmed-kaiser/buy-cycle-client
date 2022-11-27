@@ -46,7 +46,7 @@ const Navbar = () => {
         </ul>
         {/* ---- Menu for small screen ------ */}
         <ul
-          className={`absolute top-[80px] left-0 h-full bg-gray-50 w-[200px] pl-4 items-stretch lg:hidden ${
+          className={`absolute z-10 top-[80px] left-0 h-screen bg-gray-50 w-[200px] pl-4 items-stretch lg:hidden ${
             showMenu ? "left-0" : "-left-[300px]"
           } duration-500 space-y-2`}
         >

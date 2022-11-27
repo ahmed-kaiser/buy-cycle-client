@@ -75,6 +75,7 @@ const Category = () => {
               data={item}
               handleClick={handleModal}
               setBookingData={setBookingData}
+              email={userInfo.email}
             />
           ))}
         </div>

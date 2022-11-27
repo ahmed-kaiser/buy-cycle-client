@@ -1,4 +1,3 @@
-import React from 'react';
 import { RiCloseFill } from 'react-icons/ri';
 
 const BookingForm = ({ showModal, handleModal, bookingData, userInfo, handleForm }) => {

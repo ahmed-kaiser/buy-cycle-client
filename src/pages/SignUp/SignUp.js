@@ -20,7 +20,8 @@ const SignUp = () => {
 				username: data.username,
 				email: data.email,
 				photoURL: null,
-				role: data.account_type
+				role: data.account_type,
+        wishlist: []
 			};
 			axios({
 				method: 'POST',

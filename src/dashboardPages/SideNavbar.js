@@ -25,8 +25,8 @@ const SideNavbar = () => {
               </>
             ) : (
               <>
-                <LinkItem to="">My Booking</LinkItem>
-                <LinkItem to="">Wishlist</LinkItem>
+                <LinkItem to="/dashboard/my-booking">My Booking</LinkItem>
+                <LinkItem to="/dashboard/my-wishlist">Wishlist</LinkItem>
               </>
             )}
           </ul>
