@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { AuthContext } from "../context/UserAuthContext";
 import useCheckUserRole from "../hooks/useCheckUserRole";
 
@@ -21,7 +21,7 @@ const SideNavbar = () => {
               <>
                 <LinkItem to="/dashboard/all-buyer">All Buyer</LinkItem>
                 <LinkItem to="/dashboard/all-seller">All Seller</LinkItem>
-                <LinkItem to="">Report</LinkItem>
+                <LinkItem to="/dashboard/reported-item">Reported Item</LinkItem>
               </>
             ) : (
               <>

@@ -7,6 +7,7 @@ import MyBooking from "../dashboardPages/MyBooking";
 import MyBuyers from "../dashboardPages/MyBuyers";
 import MyProducts from "../dashboardPages/MyProducts";
 import MyWishlist from "../dashboardPages/MyWishlist";
+import ReportedItem from "../dashboardPages/ReportedItem";
 import DashboardRoot from "../layout/DashboardRoot";
 import Root from "../layout/Root";
 import Category from "../pages/Category/Category";
@@ -76,6 +77,10 @@ const Routes = () => {
                 {
                     path: '/dashboard/all-buyer',
                     element: <RequireAdmin><AllBuyer /></RequireAdmin>
+                },
+                {
+                    path: '/dashboard/reported-item',
+                    element: <RequireAdmin><ReportedItem /></RequireAdmin>
                 }
             ]
         }

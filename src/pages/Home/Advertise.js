@@ -17,22 +17,22 @@ const Advertise = () => {
       {advertise?.length > 0 && (
         <section className="p-4 lg:p-8 bg-slate-100 my-20">
           <Slide arrows={false} duration={6000} transitionDuration={2000} easing="ease-in" >
-            {advertise?.map((item) => (
-              <div className="container mx-auto max-w-md lg:max-w-screen-md space-y-12">
+            {advertise?.map((item, index) => (
+              <div key={index} className="container mx-auto max-w-md lg:max-w-screen-md space-y-12">
                 <div className="flex flex-col overflow-hidden shadow-sm lg:flex-row rounded-lg">
                   <img
-                    src={item.productDetails.image}
+                    src={item.productDetails?.image}
                     alt=""
-                    className="h-64 sm:h-80 aspect-video"
+                    className="object-fill h-64 max-w-lg sm:h-80 aspect-video"
                   />
                   <div className="flex flex-col justify-center flex-1 p-6 bg-gray-50">
                     <h1 className="font-medium text-lg">
-                      {item.productDetails.title}
+                      {item.productDetails?.title}
                     </h1>
-                    <p><span className="font-medium">price:</span> ${item.productDetails.selling_price}</p>
+                    <p><span className="font-medium">price:</span> ${item.productDetails?.selling_price}</p>
                     <p>
-                      <span className="font-medium">Location:</span> {item.productDetails.area},{" "}
-                      {item.productDetails.city}
+                      <span className="font-medium">Location:</span> {item.productDetails?.area},{" "}
+                      {item.productDetails?.city}
                     </p>
                   </div>
                 </div>

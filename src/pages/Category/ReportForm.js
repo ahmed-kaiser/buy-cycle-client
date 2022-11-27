@@ -1,4 +1,4 @@
-const BookingForm = ({ registerData, userInfo, handleForm }) => {
+const ReportForm = ({ registerData, userInfo, handleForm }) => {
   return (
     <form onSubmit={handleForm} className="space-y-2 mt-4">
       <div>
@@ -8,17 +8,6 @@ const BookingForm = ({ registerData, userInfo, handleForm }) => {
           name="product_title"
           placeholder="Title"
           defaultValue={registerData.title}
-          readOnly
-          className="w-full border-gray-200 bg-gray-50 rounded-md focus:border-primary py-1.5"
-        />
-      </div>
-      <div>
-        <label className="text-sm pl-1 text-gray-600">Price</label>
-        <input
-          type="number"
-          name="price"
-          placeholder="Price"
-          defaultValue={registerData.selling_price}
           readOnly
           className="w-full border-gray-200 bg-gray-50 rounded-md focus:border-primary py-1.5"
         />
@@ -46,21 +35,11 @@ const BookingForm = ({ registerData, userInfo, handleForm }) => {
         />
       </div>
       <div>
-        <label className="text-sm pl-1 text-gray-600">Phone Number</label>
-        <input
-          type="number"
-          name="phone"
-          placeholder="Type your phone number"
-          required
-          className="w-full border-gray-200 bg-gray-50 rounded-md focus:border-primary py-1.5"
-        />
-      </div>
-      <div>
-        <label className="text-sm pl-1 text-gray-600">Location</label>
-        <input
+        <label className="text-sm pl-1 text-gray-600">Message</label>
+        <textarea
           type="text"
-          name="location"
-          placeholder="Type your location"
+          name="message"
+          placeholder="Your message"
           required
           className="w-full border-gray-200 bg-gray-50 rounded-md focus:border-primary py-1.5"
         />
@@ -70,11 +49,11 @@ const BookingForm = ({ registerData, userInfo, handleForm }) => {
           type="submit"
           className="bg-yellow-500 px-6 py-1 font-medium text-gray-700 rounded-md"
         >
-          Confirm
+          Submit
         </button>
       </div>
     </form>
   );
 };
 
-export default BookingForm;
+export default ReportForm;

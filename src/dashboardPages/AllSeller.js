@@ -22,11 +22,6 @@ const AllSeller = () => {
       .catch((err) => console.log(err));
   }, [userInfo.email, refetch]);
 
-  const handleDeleteBtn = (title, id) => {
-    handleShowModal();
-    modalData(title, id, performDelete);
-  };
-
   const performDelete = (id) => {
     axios({
       method: "delete",
@@ -40,6 +35,26 @@ const AllSeller = () => {
           toast.success("Seller Account deleted successfully...");
           setRefetch(!refetch);
         }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleDeleteBtn = (title, id) => {
+    handleShowModal();
+    modalData(title, id, performDelete);
+  };
+
+  const handleVerification = (id) => {
+    axios({
+      method: "patch",
+      headers: {
+        authorization: `bearer ${localStorage.getItem("token")}`,
+      },
+      url: `http://localhost:5000/users/${id}?email=${userInfo.email}&role=buyer`,
+    })
+      .then((res) => {
+          toast.success("User verification done....");
+          setRefetch(!refetch);
       })
       .catch((err) => console.log(err));
   };
@@ -64,6 +79,7 @@ const AllSeller = () => {
               <th className="p-2">Image</th>
               <th className="p-2">Name</th>
               <th className="p-2">Email</th>
+              <th className="p-2">Verified</th>
               <th className="p-2">Delete</th>
             </tr>
           </thead>
@@ -83,7 +99,27 @@ const AllSeller = () => {
                   <p>{item.email}</p>
                 </td>
                 <td className="p-2">
-                  <button onClick={() => handleDeleteBtn(item.username, item._id)} className="bg-red-400 hover:bg-red-500 p-1 rounded-md text-gray-50 font-medium">
+                  {item.verified ? (
+                    <button
+                      onClick={() => handleVerification(item._id)}
+                      className="bg-green-400 hover:bg-green-500 p-1 rounded-md text-gray-50 font-medium"
+                    >
+                      Verified
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleVerification(item._id)}
+                      className="bg-gray-400 hover:bg-gray-500 p-1 rounded-md text-gray-50 font-medium"
+                    >
+                      Verify
+                    </button>
+                  )}
+                </td>
+                <td className="p-2">
+                  <button
+                    onClick={() => handleDeleteBtn(item.username, item._id)}
+                    className="bg-red-400 hover:bg-red-500 p-1 rounded-md text-gray-50 font-medium"
+                  >
                     Delete
                   </button>
                 </td>

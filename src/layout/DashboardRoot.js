@@ -1,7 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import SideNavbar from '../dashboardPages/SideNavbar';
-import Navbar from '../pages/Shared/Navbar';
+import Navbar from '../pages/Shared/Navbar/Navbar';
 
 const DashboardRoot = () => {
     return (

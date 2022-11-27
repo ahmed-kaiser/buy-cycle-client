@@ -12,7 +12,6 @@ const GuideLine = () => {
       <div className="container mx-auto">
         <div className="flex justify-center my-4">
           <label
-            for="Toggle1"
             className="inline-flex items-center space-x-4 cursor-pointer"
           >
             <span

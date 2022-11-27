@@ -122,7 +122,7 @@ const MyProducts = () => {
                     <p>{index + 1}</p>
                   </td>
                   <td className="p-2">
-                    <img src={product.image} alt="" className="h-28 w-28" />
+                    <img src={product.image} alt="" className="object-fill max-h-[100px] w-28" />
                   </td>
                   <td className="p-2">
                     <p>{product.title}</p>

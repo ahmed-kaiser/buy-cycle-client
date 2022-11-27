@@ -1,36 +1,35 @@
 import axios from "axios";
 import React from "react";
 import toast from "react-hot-toast";
-import { RiHeartAddLine } from "react-icons/ri";
+import { RiHeartAddLine, RiCheckboxCircleFill } from "react-icons/ri";
 
-const ProductDetailsCard = ({ data, setBookingData, handleClick, email }) => {
-  console.log(email)
-  const handleBookingClick = () => {
+const ProductDetailsCard = ({ data, setRegisterData, handleClick, email, setOperationType }) => {
+  const handleButtonClick = (operationType) => {
     handleClick();
-    setBookingData(data);
+    setRegisterData(data);
+    setOperationType(operationType);
   };
 
   const handleAddToWishlist = (id) => {
     axios({
-      method: 'patch',
+      method: "patch",
       headers: {
-          authorization: `bearer ${localStorage.getItem('token')}`
+        authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url:`http://localhost:5000/wishlist/${id}?email=${email}`
-  })
-  .then(res => {
-      if(res.data.acknowledged) {
+      url: `http://localhost:5000/wishlist/${id}?email=${email}`,
+    })
+      .then((res) => {
+        if (res.data.acknowledged) {
           toast.success("Added to wishlist...");
-      }
-  })
-  .catch(err => console.log(err))
-  }
-
+        }
+      })
+      .catch((err) => console.log(err));
+  };
 
   return (
-    <div className="border rounded-md shadow-md p-2 max-w-sm">
-      <div className="flex justify-center px-6">
-        <img alt="" className="object-fill w-full h-52" src={data.image} />
+    <div className="border rounded-md shadow-md max-w-sm">
+      <div className="flex justify-center w-full h-52">
+        <img alt="" className="w-full h-full" src={data.image} />
       </div>
       <div className="flex flex-col flex-1 p-3 px-6">
         <div className="flex items-center">
@@ -68,24 +67,24 @@ const ProductDetailsCard = ({ data, setBookingData, handleClick, email }) => {
             <span className="font-medium mr-1">Location:</span> {data.area},{" "}
             {data.city}
           </p>
-          <p className="capitalize">
+          <p className="capitalize flex items-center gap-1">
             <span className="font-medium mr-1">Seller Name:</span>{" "}
             {data.sellerDetails[0].username}
+            {
+              data.sellerDetails[0].verified && <RiCheckboxCircleFill className="text-green-500" />
+            }
           </p>
         </div>
         <div className="mt-6 text-center space-x-2">
           {data.available ? (
             <>
               <button
-                onClick={handleBookingClick}
+                onClick={() => handleButtonClick("booking")}
                 className="bg-sky-400 py-1 px-3 text-gray-200 font-medium rounded-md hover:bg-sky-500 hover:text-gray-50 duration-300"
               >
                 Book Now
               </button>
-              <button
-                onClick={handleBookingClick}
-                className="bg-yellow-600 py-1 px-3 text-gray-200 font-medium rounded-md hover:bg-yellow-500 hover:text-gray-50 duration-300"
-              >
+              <button onClick={() => handleButtonClick("report")} className="bg-yellow-600 py-1 px-3 text-gray-200 font-medium rounded-md hover:bg-yellow-500 hover:text-gray-50 duration-300">
                 Report
               </button>
             </>
