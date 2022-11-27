@@ -6,7 +6,7 @@ import axios from "axios";
 import SocialSignUpButton from "../Shared/SocialSignUpButton";
 
 const SignUp = () => {
-  const { createUser } = useContext(AuthContext);
+  const { createUser, updateUserProfile, userSignOut } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSignInForm = async (e) => {
@@ -31,7 +31,16 @@ const SignUp = () => {
 			.then(res => {
 				if(res.data.acknowledged) {
 					toast.success("Account created successfully......");
-					navigate('/');
+					updateUserProfile(data.username, "https://i.ibb.co/8D0XDSs/default-profile.jpg")
+          .then(res => {
+            userSignOut()
+            .then(() => {
+              toast.success("Sign in now...");
+              navigate('/sign-in')
+            })
+            .catch(err => console.log(err))
+          })
+          .catch(err => console.log(err))
 				}
 			})
 			.catch(err => toast.error(err));

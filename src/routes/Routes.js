@@ -7,10 +7,13 @@ import MyBooking from "../dashboardPages/MyBooking";
 import MyBuyers from "../dashboardPages/MyBuyers";
 import MyProducts from "../dashboardPages/MyProducts";
 import MyWishlist from "../dashboardPages/MyWishlist";
+import Payment from "../dashboardPages/Payment";
 import ReportedItem from "../dashboardPages/ReportedItem";
 import DashboardRoot from "../layout/DashboardRoot";
 import Root from "../layout/Root";
+import Blog from "../pages/Blog/Blog";
 import Category from "../pages/Category/Category";
+import Error from "../pages/Error/Error";
 import Home from "../pages/Home/Home";
 import SignIn from "../pages/SignIn/SignIn";
 import SignUp from "../pages/SignUp/SignUp";
@@ -23,6 +26,7 @@ const Routes = () => {
         {
             path: '/',
             element: <Root />,
+            errorElement: <Error />,
             children: [
                 {
                     path: '/',
@@ -37,6 +41,10 @@ const Routes = () => {
                     element: <SignUp />
                 },
                 {
+                    path: '/blog',
+                    element: <Blog />
+                },
+                {
                     path: '/category/:id',
                     element: <RequiredAuth><Category /></RequiredAuth>,
                 }
@@ -45,6 +53,7 @@ const Routes = () => {
         {
             path: '/dashboard',
             element: <RequiredAuth><DashboardRoot /></RequiredAuth>,
+            errorElement: <Error />,
             children: [
                 {
                     path: '/dashboard',
@@ -57,6 +66,10 @@ const Routes = () => {
                 {
                     path: '/dashboard/my-wishlist',
                     element: <MyWishlist />
+                },
+                {
+                    path: '/dashboard/payment',
+                    element: <Payment />
                 },
                 {
                     path: '/dashboard/add-product',
