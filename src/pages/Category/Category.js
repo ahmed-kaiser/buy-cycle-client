@@ -108,7 +108,7 @@ const Category = () => {
   }
 
   return (
-    <section className="py-6 sm:py-4">
+    <section className="py-6 sm:py-4 min-h-screen">
       <div className="container p-6 mx-auto space-y-8 max-w-screen-xl">
         <div className="space-y-2">
           <h2 className="text-xl font-bold text-gray-600 border-b-2 border-gray-100 pb-2">

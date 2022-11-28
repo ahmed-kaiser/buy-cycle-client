@@ -100,12 +100,12 @@ const Navbar = () => {
                   <LinkItem to="/dashboard/all-seller">All Seller</LinkItem>
                   <LinkItem to="">Reported Item</LinkItem>
                 </>
-              ) : (
+              ) : role === "buyer" ? (
                 <>
                   <LinkItem to="/dashboard/my-booking">My Booking</LinkItem>
                   <LinkItem to="/dashboard/my-wishlist">Wishlist</LinkItem>
                 </>
-              )}
+              ) : <></>}
             </>
           )}
           {!userInfo ? (
