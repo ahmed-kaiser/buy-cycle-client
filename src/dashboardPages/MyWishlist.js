@@ -23,7 +23,7 @@ const MyWishlist = () => {
 
   const performDelete = async (id) => {
     axios({
-      method: "DELETE",
+      method: "delete",
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },

@@ -38,7 +38,7 @@ const ReportedItem = () => {
 
   const performDelete = (id) => {
     axios({
-      method: "DELETE",
+      method: "delete",
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },

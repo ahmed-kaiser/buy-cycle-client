@@ -93,6 +93,7 @@ const Category = () => {
 
   useEffect(() => {
     axios({
+      method: 'get',
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },

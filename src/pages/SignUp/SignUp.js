@@ -32,7 +32,7 @@ const SignUp = () => {
         wishlist: [],
       };
       axios({
-        method: "POST",
+        method: "post",
         url: "https://buy-cycle-server.vercel.app/users",
         data: userData,
       })

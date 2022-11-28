@@ -29,7 +29,7 @@ const Navbar = () => {
 
   return (
     <nav className="p-4 bg-gray-50 sticky top-0 z-10">
-      <div className="container flex justify-between items-center h-16 mx-auto">
+      <div className="container flex justify-between items-center h-8 md:h-14 mx-auto">
         <Link
           to="/"
           aria-label="Back to homepage"
@@ -62,7 +62,7 @@ const Navbar = () => {
         </ul>
         {/* ---- Menu for small screen ------ */}
         <ul
-          className={`absolute z-10 top-[80px] left-0  bg-gray-50 w-[200px] h-screen pl-4 lg:hidden ${
+          className={`absolute z-10 top-[62px] md:top-[80px] left-0  bg-gray-50 w-[200px] h-screen pl-4 lg:hidden ${
             showMenu ? "left-0" : "-left-[300px]"
           } duration-500 space-y-2`}
         >
