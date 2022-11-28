@@ -22,20 +22,20 @@ const ProductDetailsCard = ({
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url: `http://localhost:5000/wishlist/${id}?email=${email}`,
+      url: `https://buy-cycle-server.vercel.app/wishlist/${id}?email=${email}`,
     })
       .then((res) => {
         if (res.data.acknowledged) {
           toast.success("Added to wishlist...");
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.message));
   };
 
   return (
-    <div className="border rounded-md shadow-md max-w-sm">
+    <div className="rounded-md shadow-md mx-auto md:mx-0 max-w-xs sm:max-w-md bg-slate-50">
       <div className="flex justify-center w-full h-52">
-        <img alt="" className="w-full h-full" src={data.image} />
+        <img alt="" className="w-[300px] h-full" src={data.image} />
       </div>
       <div className="flex flex-col flex-1 p-3 px-6">
         <div className="flex items-center">

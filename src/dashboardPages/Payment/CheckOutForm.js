@@ -9,7 +9,7 @@ const CheckOutForm = ({ bookingInfo, setPaymentSuccess, setIsProcessing }) => {
   const { price, buyerEmail, sellerEmail, productId } = bookingInfo;
 
   useEffect(() => {
-    fetch(`http://localhost:5000/create-payment-intent?email=${buyerEmail}`, {
+    fetch(`https://buy-cycle-server.vercel.app/create-payment-intent?email=${buyerEmail}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +74,7 @@ const CheckOutForm = ({ bookingInfo, setPaymentSuccess, setIsProcessing }) => {
         transactionId: paymentIntent.id,
         productId,
       };
-      fetch(`http://localhost:5000/payments?email=${buyerEmail}`, {
+      fetch(`https://buy-cycle-server.vercel.app/payments?email=${buyerEmail}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

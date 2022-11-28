@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { ModalContext } from "../context/GlobalModalContext";
 import { AuthContext } from "../context/UserAuthContext";
 import useScrollToTop from "../hooks/useScrollToTop";
+import Loading from "../pages/Shared/Loading";
 import ButtonRed from "./Buttons/ButtonRed";
 
 const MyBooking = () => {
@@ -13,6 +14,7 @@ const MyBooking = () => {
   const [bookings, setBookings] = useState([]);
   const { handleShowModal, modalData } = useContext(ModalContext);
   const [refetch, setRefetch] = useState(false);
+  const [dataLoading, setDataLoading] = useState(true);
 
   useEffect(() => {
     axios({
@@ -20,9 +22,12 @@ const MyBooking = () => {
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url: `http://localhost:5000/bookings?email=${userInfo.email}`,
+      url: `https://buy-cycle-server.vercel.app/bookings?email=${userInfo.email}`,
     })
-      .then((res) => setBookings(res.data))
+      .then((res) => {
+        setBookings(res.data);
+        setDataLoading(false);
+      })
       .catch((err) => console.log(err));
   }, [userInfo.email, refetch]);
 
@@ -37,7 +42,7 @@ const MyBooking = () => {
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url: `http://localhost:5000/bookings/${id}?email=${userInfo.email}`,
+      url: `https://buy-cycle-server.vercel.app/bookings/${id}?email=${userInfo.email}`,
     })
       .then((res) => {
         if (res.data.acknowledged) {
@@ -45,8 +50,12 @@ const MyBooking = () => {
           setRefetch(!refetch);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.message));
   };
+
+  if (dataLoading) {
+    return <Loading />;
+  }
 
   return (
     <div>
@@ -108,7 +117,9 @@ const MyBooking = () => {
                   </td>
                   <td className="p-2">
                     <ButtonRed
-                      onClick={() => handleDeleteBtn(item.productTitle, item._id)}
+                      onClick={() =>
+                        handleDeleteBtn(item.productTitle, item._id)
+                      }
                     >
                       Delete
                     </ButtonRed>

@@ -27,10 +27,19 @@ const Headers = () => {
     <section>
       <Slide arrows={false}>
         {images.map((image, index) => (
-          <div key={index} className="relative w-full h-[350px] md:h-[600px] bg-gradient-to-r from-slate-600 to-slate-700">
-            <img src={image.img} alt="" className="absolute object-cover w-full h-full mix-blend-overlay"/>
+          <div
+            key={index}
+            className="relative w-full h-[350px] md:h-[600px] bg-gradient-to-r from-slate-600 to-slate-700"
+          >
+            <img
+              src={image.img}
+              alt=""
+              className="absolute object-cover w-full h-full mix-blend-overlay"
+            />
             <div className="absolute flex items-center justify-center text-3xl md:text-5xl font-serif font-bold text-center text-gray-300 w-full h-full">
-                <h1 className="capitalize leading-tight max-w-xl px-5">{image.title}</h1>
+              <h1 className="capitalize leading-tight max-w-md md:max-w-xl px-5">
+                {image.title}
+              </h1>
             </div>
           </div>
         ))}

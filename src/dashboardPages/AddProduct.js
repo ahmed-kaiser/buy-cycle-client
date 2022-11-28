@@ -41,7 +41,7 @@ const AddProduct = () => {
         sellerEmail: userInfo.email,
       };
       const dbResponse = await fetch(
-        `http://localhost:5000/products?email=${userInfo.email}`,
+        `https://buy-cycle-server.vercel.app/products?email=${userInfo.email}`,
         {
           method: "POST",
           headers: {

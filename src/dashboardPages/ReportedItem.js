@@ -19,7 +19,7 @@ const ReportedItem = () => {
     queryKey: ["report"],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/report?email=${userInfo.email}`,
+        `https://buy-cycle-server.vercel.app/report?email=${userInfo.email}`,
         {
           headers: {
             authorization: `bearer ${localStorage.getItem("token")}`,
@@ -42,7 +42,7 @@ const ReportedItem = () => {
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url: `http://localhost:5000/report/${id}?email=${userInfo.email}`,
+      url: `https://buy-cycle-server.vercel.app/report/${id}?email=${userInfo.email}`,
     })
       .then((res) => {
         if (res.data.acknowledged) {
@@ -50,7 +50,7 @@ const ReportedItem = () => {
           refetch();
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.message));
   };
 
   if (isLoading) {

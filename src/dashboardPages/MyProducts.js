@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { ModalContext } from "../context/GlobalModalContext";
 import { AuthContext } from "../context/UserAuthContext";
 import useScrollToTop from "../hooks/useScrollToTop";
+import Loading from "../pages/Shared/Loading";
 import ButtonGray from "./Buttons/ButtonGray";
 import ButtonGreen from "./Buttons/ButtonGreen";
 import ButtonRed from "./Buttons/ButtonRed";
@@ -14,11 +15,11 @@ const MyProducts = () => {
   const { userInfo } = useContext(AuthContext);
   const { handleShowModal, modalData } = useContext(ModalContext);
 
-  const { data: products, refetch } = useQuery({
+  const { data: products, refetch, isLoading } = useQuery({
     queryKey: ["products"],
     queryFn: async () => {
       const response = await fetch(
-        `http://localhost:5000/products?email=${userInfo?.email}`,
+        `https://buy-cycle-server.vercel.app/products?email=${userInfo?.email}`,
         {
           headers: {
             authorization: `bearer ${localStorage.getItem("token")}`,
@@ -41,7 +42,7 @@ const MyProducts = () => {
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url: `http://localhost:5000/products?email=${userInfo.email}&id=${id}`,
+      url: `https://buy-cycle-server.vercel.app/products?email=${userInfo.email}&id=${id}`,
     })
       .then((res) => {
         if (res.data.acknowledged) {
@@ -49,7 +50,7 @@ const MyProducts = () => {
           refetch();
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.message));
   };
 
   const addToAdvertiseList = (id) => {
@@ -59,7 +60,7 @@ const MyProducts = () => {
     };
 
     axios({
-      url: `http://localhost:5000/advertise?email=${userInfo.email}`,
+      url: `https://buy-cycle-server.vercel.app/advertise?email=${userInfo.email}`,
       method: "post",
       headers: {
         "content-type": "application/json",
@@ -73,12 +74,12 @@ const MyProducts = () => {
           refetch();
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.message));
   };
 
   const removeFromAdvertiseList = (id) => {
     axios({
-      url: `http://localhost:5000/advertise/${id}?email=${userInfo.email}`,
+      url: `https://buy-cycle-server.vercel.app/advertise/${id}?email=${userInfo.email}`,
       method: "delete",
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
@@ -90,8 +91,12 @@ const MyProducts = () => {
           refetch();
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.message));
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div>
@@ -146,17 +151,29 @@ const MyProducts = () => {
                     {product.available && (
                       <>
                         {product.advertise?._id ? (
-                          <ButtonGreen onClick={() => removeFromAdvertiseList(product._id)}>Enabled</ButtonGreen>
+                          <ButtonGreen
+                            onClick={() => removeFromAdvertiseList(product._id)}
+                          >
+                            Enabled
+                          </ButtonGreen>
                         ) : (
-                          <ButtonGray onClick={() => addToAdvertiseList(product._id)}>Disabled</ButtonGray>
+                          <ButtonGray
+                            onClick={() => addToAdvertiseList(product._id)}
+                          >
+                            Disabled
+                          </ButtonGray>
                         )}
                       </>
                     )}
                   </td>
                   <td className="p-2">
-                    <ButtonRed onClick={() =>
+                    <ButtonRed
+                      onClick={() =>
                         handleDeleteBtn(product.title, product._id)
-                      }>Delete</ButtonRed>
+                      }
+                    >
+                      Delete
+                    </ButtonRed>
                   </td>
                 </tr>
               ))}

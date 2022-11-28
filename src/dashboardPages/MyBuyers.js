@@ -2,15 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useContext } from "react";
 import { AuthContext } from "../context/UserAuthContext";
 import useScrollToTop from "../hooks/useScrollToTop";
+import Loading from "../pages/Shared/Loading";
 
 const MyBuyers = () => {
   useScrollToTop();
   const { userInfo } = useContext(AuthContext);
-  const { data: bookings } = useQuery({
+  const { data: bookings, isLoading } = useQuery({
     queryKey: ["booking"],
     queryFn: async () => {
       const res = await fetch(
-        `http://localhost:5000/bookings/seller?email=${userInfo.email}`,
+        `https://buy-cycle-server.vercel.app/bookings/seller?email=${userInfo.email}`,
         {
           headers: {
             authorization: `bearer ${localStorage.getItem("token")}`,
@@ -21,6 +22,10 @@ const MyBuyers = () => {
       return data;
     },
   });
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div>

@@ -26,7 +26,7 @@ const SocialSignUpButton = () => {
         };
         axios({
           method: "POST",
-          url: "http://localhost:5000/users",
+          url: "https://buy-cycle-server.vercel.app/users",
           data: userData,
         })
           .then((res) => {
@@ -35,10 +35,10 @@ const SocialSignUpButton = () => {
               navigate(from, { replace: true });
             }
           })
-          .catch((err) => console.log(err));
+          .catch((err) => toast.error(err.message));
       }
       const getToken = await fetch(
-        `http://localhost:5000/jwt-token?email=${response.user.email}`
+        `https://buy-cycle-server.vercel.app/jwt-token?email=${response.user.email}`
       );
       const token = await getToken.json();
       if (token) {

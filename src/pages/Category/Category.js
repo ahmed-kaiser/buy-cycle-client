@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import CategoryModal from "./CategoryModal";
 import useScrollToTop from "../../hooks/useScrollToTop";
 import useTitle from "../../hooks/useTitle";
+import Loading from "../Shared/Loading";
 
 const Category = () => {
   useScrollToTop();
@@ -43,7 +44,7 @@ const Category = () => {
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url: `http://localhost:5000/bookings?email=${userInfo.email}`,
+      url: `https://buy-cycle-server.vercel.app/bookings?email=${userInfo.email}`,
       data: booking,
     })
       .then((res) => {
@@ -76,7 +77,7 @@ const Category = () => {
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url: `http://localhost:5000/report?email=${userInfo.email}`,
+      url: `https://buy-cycle-server.vercel.app/report?email=${userInfo.email}`,
       data: report,
     })
       .then((res) => {
@@ -95,11 +96,15 @@ const Category = () => {
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url: `http://localhost:5000/products/${params.id}?email=${userInfo.email}`,
+      url: `https://buy-cycle-server.vercel.app/products/${params.id}?email=${userInfo.email}`,
     })
       .then((res) => setProducts(res.data))
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.message));
   }, [params.id, userInfo.email]);
+
+  if(products.length === 0) {
+    return <Loading />
+  }
 
   return (
     <section className="py-6 sm:py-4">
@@ -109,7 +114,7 @@ const Category = () => {
             All Products
           </h2>
         </div>
-        <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3 ">
           {products.map((item) => (
             <ProductDetailsCard
               key={item._id}

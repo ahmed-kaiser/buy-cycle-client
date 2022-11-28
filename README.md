@@ -1,70 +1,27 @@
-# Getting Started with Create React App
+## BuyCycle
+BuyCycle is a single-page full-stack web application. Where anyone can buy and sell their old bicycle. The whole structure of this website is divided into three parts based on user, seller, and admin.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### Live Website Link
 
-## Available Scripts
+https://buy-cycle-client.web.app/
 
-In the project directory, you can run:
+### Project Feature
+* Feature keyword - Sign-In  | Sign-Up | Google Sign-In | User Authentication | User Authorization | Booking |  Wishlist | Report | Make Payment | Create | Read | Update | Delete.
+* First the expected common feature is sign-in, sign-up, and sign-up with a google account. In the sign-up section, the user can choose his account type as seller or buyer. Google sign-up will automatically be considered as a buyer account.
+* Buyers can book or report a bicycle and also add a bicycle to his/her wish list. From the buyer dashboard, a buyer can perform payment, delete bookings and delete items from the wishlist.
+* Sellers can add a product, delete a product and send a product for advertising. The advertised product is shown on the home page. If a product is sold out it gets removed from the advertising section automatically. The seller can view all his/her added products and booking details.
+* Admin can view and delete all types of users. In the seller's list, there is a verification option to verify sellers. Admin can view all the reports made by buyers and also delete those.
+* All these three layers are isolated from one another. User authentication and authorization are implemented to control different types of user access. 
 
-### `npm start`
+### Used Technology
+* ReactJS, react-router-dom, react-hot-toast, Tailwind, MAMBA UI for frontend.
+* Node.js, Express.js for backend. 
+* Firebase for user authentication.
+* Stripe for payment.
+* MongoDB for database.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Context of this project
+This project was a 2-3 day long project built during my learning journey of web development. Project goals included using technology learned up until this point.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Project State
+Till lots more functionality can be implemented.

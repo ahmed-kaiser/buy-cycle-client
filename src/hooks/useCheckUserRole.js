@@ -5,7 +5,7 @@ const useCheckUserRole = (email) => {
   const [roleIsLoading, setRoleIsLoading] = useState(true);
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:5000/users?email=${email}`)
+      fetch(`https://buy-cycle-server.vercel.app/users?email=${email}`)
         .then((res) => res.json())
         .then((data) => {
           setRole(data.role);

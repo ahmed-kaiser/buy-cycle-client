@@ -33,7 +33,7 @@ const SignUp = () => {
       };
       axios({
         method: "POST",
-        url: "http://localhost:5000/users",
+        url: "https://buy-cycle-server.vercel.app/users",
         data: userData,
       })
         .then((res) => {

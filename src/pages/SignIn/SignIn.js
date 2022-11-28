@@ -22,7 +22,7 @@ const SignIn = () => {
     try {
       const response = await userSignIn(data.email, data.password);
       const getToken = await fetch(
-        `http://localhost:5000/jwt-token?email=${response.user.email}`
+        `https://buy-cycle-server.vercel.app/jwt-token?email=${response.user.email}`
       );
       const token = await getToken.json();
 

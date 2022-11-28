@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { ModalContext } from "../context/GlobalModalContext";
 import { AuthContext } from "../context/UserAuthContext";
+import Loading from "../pages/Shared/Loading";
 import ButtonRed from "./Buttons/ButtonRed";
 
 const AllSeller = () => {
@@ -10,6 +11,7 @@ const AllSeller = () => {
   const [sellers, setSellers] = useState([]);
   const { handleShowModal, modalData } = useContext(ModalContext);
   const [refetch, setRefetch] = useState(false);
+  const [dataLoading, setDataLoading] = useState(true);
 
   useEffect(() => {
     axios({
@@ -17,10 +19,13 @@ const AllSeller = () => {
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url: `http://localhost:5000/all-users?email=${userInfo.email}&role=seller`,
+      url: `https://buy-cycle-server.vercel.app/all-users?email=${userInfo.email}&role=seller`,
     })
-      .then((res) => setSellers(res.data))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        setSellers(res.data);
+        setDataLoading(false);
+      })
+      .catch((err) => toast.error(err.messages));
   }, [userInfo.email, refetch]);
 
   const performDelete = (id) => {
@@ -29,7 +34,7 @@ const AllSeller = () => {
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url: `http://localhost:5000/users/${id}?email=${userInfo.email}&role=buyer`,
+      url: `https://buy-cycle-server.vercel.app/users/${id}?email=${userInfo.email}&role=buyer`,
     })
       .then((res) => {
         if (res.data.acknowledged) {
@@ -51,14 +56,18 @@ const AllSeller = () => {
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url: `http://localhost:5000/users/${id}?email=${userInfo.email}&role=buyer`,
+      url: `https://buy-cycle-server.vercel.app/users/${id}?email=${userInfo.email}&role=buyer`,
     })
       .then((res) => {
-          toast.success("User verification done....");
-          setRefetch(!refetch);
+        toast.success("User verification done....");
+        setRefetch(!refetch);
       })
       .catch((err) => console.log(err));
   };
+
+  if (dataLoading) {
+    return <Loading />;
+  }
 
   return (
     <div>
@@ -91,7 +100,14 @@ const AllSeller = () => {
                   <p>{index + 1}</p>
                 </td>
                 <td className="p-2">
-                  <img src={person.photoURL || "https://i.ibb.co/8D0XDSs/default-profile.jpg" } alt="" className="h-20 w-20" />
+                  <img
+                    src={
+                      person.photoURL ||
+                      "https://i.ibb.co/8D0XDSs/default-profile.jpg"
+                    }
+                    alt=""
+                    className="h-20 w-20"
+                  />
                 </td>
                 <td className="p-2">
                   <p>{person.username}</p>

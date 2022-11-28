@@ -11,9 +11,7 @@ const GuideLine = () => {
     <section className="p-6">
       <div className="container mx-auto">
         <div className="flex justify-center my-4">
-          <label
-            className="inline-flex items-center space-x-4 cursor-pointer"
-          >
+          <label className="inline-flex items-center space-x-4 cursor-pointer">
             <span
               className={`font-medium text-lg ${!toggle && "text-green-600"}`}
             >
@@ -67,12 +65,8 @@ const GuideLine = () => {
 const Card = ({ step, text }) => {
   return (
     <div className="flex flex-col p-6 space-y-4 rounded-md text-center max-w-xs border w-96 h-56">
-      <span className="text-8xl text-green-100 font-extrabold">
-        {step}
-      </span>
-      <p className="text-xl font-semibold">
-        {text}
-      </p>
+      <span className="text-8xl text-green-100 font-extrabold">{step}</span>
+      <p className="text-xl font-semibold">{text}</p>
     </div>
   );
 };

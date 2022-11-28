@@ -2,6 +2,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../context/UserAuthContext";
 import useScrollToTop from "../../hooks/useScrollToTop";
@@ -22,10 +23,10 @@ const Payment = () => {
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url: `http://localhost:5000/bookings/${id.id}?email=${userInfo.email}`,
+      url: `https://buy-cycle-server.vercel.app/bookings/${id.id}?email=${userInfo.email}`,
     })
       .then((res) => setBooking(res.data))
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.message));
   }, [userInfo.email, id]);
 
   return (

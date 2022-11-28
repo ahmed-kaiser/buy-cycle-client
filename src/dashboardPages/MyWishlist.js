@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { ModalContext } from "../context/GlobalModalContext";
 import { AuthContext } from "../context/UserAuthContext";
 import useScrollToTop from "../hooks/useScrollToTop";
+import Loading from "../pages/Shared/Loading";
 import ButtonGray from "./Buttons/ButtonGray";
 import ButtonRed from "./Buttons/ButtonRed";
 
@@ -13,6 +14,7 @@ const MyWishlist = () => {
   const [products, setProducts] = useState([]);
   const { handleShowModal, modalData } = useContext(ModalContext);
   const [refetch, setRefetch] = useState(false);
+  const [dataLoading, setDataLoading] = useState(true);
 
   const handleDeleteBtn = (title, id) => {
     handleShowModal();
@@ -25,7 +27,7 @@ const MyWishlist = () => {
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url: `http://localhost:5000/wishlist/${id}?email=${userInfo.email}`,
+      url: `https://buy-cycle-server.vercel.app/wishlist/${id}?email=${userInfo.email}`,
     })
       .then((res) => {
         if (res.data.acknowledged) {
@@ -33,7 +35,7 @@ const MyWishlist = () => {
           setRefetch(!refetch);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.message));
   };
 
   useEffect(() => {
@@ -42,11 +44,18 @@ const MyWishlist = () => {
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url: `http://localhost:5000/wishlist?email=${userInfo.email}`,
+      url: `https://buy-cycle-server.vercel.app/wishlist?email=${userInfo.email}`,
     })
-      .then((res) => setProducts(res.data))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        setProducts(res.data);
+        setDataLoading(false);
+      })
+      .catch((err) => toast.error(err.message));
   }, [userInfo.email, refetch]);
+
+  if(dataLoading) {
+    return <Loading />
+  };
 
   return (
     <div>

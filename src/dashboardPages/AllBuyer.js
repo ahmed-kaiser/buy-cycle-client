@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { ModalContext } from "../context/GlobalModalContext";
 import { AuthContext } from "../context/UserAuthContext";
+import Loading from "../pages/Shared/Loading";
 import ButtonRed from "./Buttons/ButtonRed";
 
 const AllBuyer = () => {
@@ -10,6 +11,7 @@ const AllBuyer = () => {
   const { handleShowModal, modalData } = useContext(ModalContext);
   const [buyers, setBuyers] = useState([]);
   const [refetch, setRefetch] = useState(false);
+  const [dataLoading, setDataLoading] = useState(true);
 
   useEffect(() => {
     axios({
@@ -17,10 +19,13 @@ const AllBuyer = () => {
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url: `http://localhost:5000/all-users?email=${userInfo.email}&role=buyer`,
+      url: `https://buy-cycle-server.vercel.app/all-users?email=${userInfo.email}&role=buyer`,
     })
-      .then((res) => setBuyers(res.data))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        setBuyers(res.data);
+        setDataLoading(false);
+      })
+      .catch((err) => toast.error(err.messages));
   }, [userInfo.email, refetch]);
 
   const handleDeleteBtn = (title, id) => {
@@ -34,7 +39,7 @@ const AllBuyer = () => {
       headers: {
         authorization: `bearer ${localStorage.getItem("token")}`,
       },
-      url: `http://localhost:5000/users/${id}?email=${userInfo.email}&role=buyer`,
+      url: `https://buy-cycle-server.vercel.app/users/${id}?email=${userInfo.email}&role=buyer`,
     })
       .then((res) => {
         if (res.data.acknowledged) {
@@ -42,8 +47,12 @@ const AllBuyer = () => {
           setRefetch(!refetch);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.messages));
   };
+
+  if (dataLoading) {
+    return <Loading />;
+  }
 
   return (
     <div>
