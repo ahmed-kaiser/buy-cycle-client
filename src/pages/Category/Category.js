@@ -5,8 +5,12 @@ import { AuthContext } from "../../context/UserAuthContext";
 import ProductDetailsCard from "./ProductDetailsCard";
 import toast from "react-hot-toast";
 import CategoryModal from "./CategoryModal";
+import useScrollToTop from "../../hooks/useScrollToTop";
+import useTitle from "../../hooks/useTitle";
 
 const Category = () => {
+  useScrollToTop();
+  useTitle("Category")
   const { userInfo } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -24,33 +28,33 @@ const Category = () => {
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
     const booking = {
-        buyerEmail: userInfo.email,
-        buyerPhone: data.phone,
-        buyerLocation: data.location,
-        productId: registerData._id,
-        productTitle: registerData.title,
-        sellerEmail: registerData.sellerEmail,
-        price: registerData.selling_price,
-        paid: false
+      buyerEmail: userInfo.email,
+      buyerPhone: data.phone,
+      buyerLocation: data.location,
+      productId: registerData._id,
+      productTitle: registerData.title,
+      sellerEmail: registerData.sellerEmail,
+      price: registerData.selling_price,
+      paid: false,
     };
 
     axios({
-        method: 'post',
-        headers: {
-            authorization: `bearer ${localStorage.getItem('token')}`
-        },
-        url:`http://localhost:5000/bookings?email=${userInfo.email}`,
-        data: booking
+      method: "post",
+      headers: {
+        authorization: `bearer ${localStorage.getItem("token")}`,
+      },
+      url: `http://localhost:5000/bookings?email=${userInfo.email}`,
+      data: booking,
     })
-    .then(res => {
-        if(res.data.acknowledged) {
-            toast.success("Bookings Confirmed Successfully...");
-            e.target.reset();
-            setOperationType(null);
-            setRegisterData({});
+      .then((res) => {
+        if (res.data.acknowledged) {
+          toast.success("Bookings Confirmed Successfully...");
+          e.target.reset();
+          setOperationType(null);
+          setRegisterData({});
         }
-    })
-    .catch(err => console.log(err))
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleReport = (e) => {
@@ -59,31 +63,31 @@ const Category = () => {
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
     const report = {
-        buyerEmail: userInfo.email,
-        productId: registerData._id,
-        productTitle: registerData.title,
-        sellerEmail: registerData.sellerEmail,
-        message: data.message,
-        date: new Date()
+      buyerEmail: userInfo.email,
+      productId: registerData._id,
+      productTitle: registerData.title,
+      sellerEmail: registerData.sellerEmail,
+      message: data.message,
+      date: new Date(),
     };
 
     axios({
-        method: 'post',
-        headers: {
-            authorization: `bearer ${localStorage.getItem('token')}`
-        },
-        url:`http://localhost:5000/report?email=${userInfo.email}`,
-        data: report
+      method: "post",
+      headers: {
+        authorization: `bearer ${localStorage.getItem("token")}`,
+      },
+      url: `http://localhost:5000/report?email=${userInfo.email}`,
+      data: report,
     })
-    .then(res => {
-        if(res.data.acknowledged) {
-            toast.success("Report Submitted Successfully...");
-            e.target.reset();
-            setOperationType(null);
-            setRegisterData({});
+      .then((res) => {
+        if (res.data.acknowledged) {
+          toast.success("Report Submitted Successfully...");
+          e.target.reset();
+          setOperationType(null);
+          setRegisterData({});
         }
-    })
-    .catch(err => console.log(err))
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -101,7 +105,9 @@ const Category = () => {
     <section className="py-6 sm:py-4">
       <div className="container p-6 mx-auto space-y-8 max-w-screen-xl">
         <div className="space-y-2">
-          <h2 className="text-2xl font-bold text-gray-600">All Products</h2>
+          <h2 className="text-xl font-bold text-gray-600 border-b-2 border-gray-100 pb-2">
+            All Products
+          </h2>
         </div>
         <div className="grid grid-cols-1 gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3">
           {products.map((item) => (
@@ -116,14 +122,14 @@ const Category = () => {
           ))}
         </div>
       </div>
-      <CategoryModal 
-          showModal={showModal}
-          handleModal={handleModal}
-          operationType={operationType}
-          registerData={registerData}
-          userInfo={userInfo}
-          handleBookingForm={handleBooking}
-          handleReportForm={handleReport}
+      <CategoryModal
+        showModal={showModal}
+        handleModal={handleModal}
+        operationType={operationType}
+        registerData={registerData}
+        userInfo={userInfo}
+        handleBookingForm={handleBooking}
+        handleReportForm={handleReport}
       />
     </section>
   );

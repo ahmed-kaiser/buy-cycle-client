@@ -4,12 +4,18 @@ import React, { useContext } from "react";
 import toast from "react-hot-toast";
 import { ModalContext } from "../context/GlobalModalContext";
 import { AuthContext } from "../context/UserAuthContext";
+import Loading from "../pages/Shared/Loading";
+import ButtonRed from "./Buttons/ButtonRed";
 
 const ReportedItem = () => {
   const { userInfo } = useContext(AuthContext);
   const { handleShowModal, modalData } = useContext(ModalContext);
 
-  const { data: report, refetch } = useQuery({
+  const {
+    data: report,
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ["report"],
     queryFn: async () => {
       const res = await fetch(
@@ -32,19 +38,23 @@ const ReportedItem = () => {
 
   const performDelete = (id) => {
     axios({
-        method: "DELETE",
-        headers: {
-          authorization: `bearer ${localStorage.getItem("token")}`,
-        },
-        url: `http://localhost:5000/report/${id}?email=${userInfo.email}`,
+      method: "DELETE",
+      headers: {
+        authorization: `bearer ${localStorage.getItem("token")}`,
+      },
+      url: `http://localhost:5000/report/${id}?email=${userInfo.email}`,
+    })
+      .then((res) => {
+        if (res.data.acknowledged) {
+          toast.success("Report deleted...");
+          refetch();
+        }
       })
-        .then((res) => {
-          if (res.data.acknowledged) {
-            toast.success("Report deleted...");
-            refetch();
-          }
-        })
-        .catch((err) => console.log(err));
+      .catch((err) => console.log(err));
+  };
+
+  if (isLoading) {
+    return <Loading />;
   }
 
   return (
@@ -52,8 +62,7 @@ const ReportedItem = () => {
       <h1 className="font-medium text-gray-600 text-xl border-b-2 pb-1 border-gray-100">
         Reported Item
       </h1>
-      {
-        report.length > 0?
+      {report.length > 0 ? (
         <div className="overflow-x-auto max-w-5xl mx-auto mt-6">
           <table className="min-w-full text-xs md:text-sm">
             <colgroup>
@@ -86,28 +95,31 @@ const ReportedItem = () => {
                     <p>{data.productTitle}</p>
                   </td>
                   <td className="p-2">
-                      <p>{data.sellerEmail}</p>
+                    <p>{data.sellerEmail}</p>
                   </td>
                   <td className="p-2">
-                      <p>{data.buyerEmail}</p>
+                    <p>{data.buyerEmail}</p>
                   </td>
                   <td className="p-2">
-                      <p>{data.message}</p>
+                    <p>{data.message}</p>
                   </td>
                   <td className="p-2">
-                      <button onClick={() => handleDeleteBtn("Report", data._id)} className="bg-red-400 hover:bg-red-500 p-1 rounded-md text-gray-50 font-medium">
-                        Delete
-                      </button>
+                    <ButtonRed
+                      onClick={() => handleDeleteBtn("Report", data._id)}
+                    >
+                      Delete
+                    </ButtonRed>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
-        : <p className="text-center mt-4 font-medium text-gray-500">
+      ) : (
+        <p className="text-center mt-4 font-medium text-gray-500">
           No report posted
         </p>
-      }
+      )}
     </div>
   );
 };

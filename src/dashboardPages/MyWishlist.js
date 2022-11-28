@@ -3,8 +3,12 @@ import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { ModalContext } from "../context/GlobalModalContext";
 import { AuthContext } from "../context/UserAuthContext";
+import useScrollToTop from "../hooks/useScrollToTop";
+import ButtonGray from "./Buttons/ButtonGray";
+import ButtonRed from "./Buttons/ButtonRed";
 
 const MyWishlist = () => {
+  useScrollToTop();
   const { userInfo } = useContext(AuthContext);
   const [products, setProducts] = useState([]);
   const { handleShowModal, modalData } = useContext(ModalContext);
@@ -95,20 +99,17 @@ const MyWishlist = () => {
                         Paid
                       </span>
                     ) : (
-                      <button className="bg-gray-500 hover:bg-gray-600 py-1 px-2 rounded-md text-gray-50 font-medium">
-                        Not Paid
-                      </button>
+                      <ButtonGray>Not Paid</ButtonGray>
                     )}
                   </td>
                   <td className="p-2">
-                    <button
+                    <ButtonRed
                       onClick={() =>
                         handleDeleteBtn(item.details?.title, item.details?._id)
                       }
-                      className="bg-red-400 hover:bg-red-500 p-1 rounded-md text-gray-50 font-medium"
                     >
                       Delete
-                    </button>
+                    </ButtonRed>
                   </td>
                 </tr>
               ))}

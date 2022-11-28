@@ -2,39 +2,52 @@ import React, { useContext } from "react";
 import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/UserAuthContext";
+import useScrollToTop from "../../hooks/useScrollToTop";
+import useTitle from "../../hooks/useTitle";
 import SocialSignUpButton from "../Shared/SocialSignUpButton";
 
 const SignIn = () => {
+  useScrollToTop();
+  useTitle("Sign-In");
   const { userSignIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = location.state?.from?.pathname || '/';
+  const from = location.state?.from?.pathname || "/";
 
-  const handleSignInForm = async(e) => {
+  const handleSignInForm = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
-    const response = await userSignIn(data.email, data.password);
-    const getToken = await fetch(`http://localhost:5000/jwt-token?email=${response.user.email}`)
-    const token = await getToken.json();
-    
-    if(response.user && token){
-      localStorage.setItem('token', token.token);
-      toast.success(`Welcome ${response.user.displayName}`);
-      navigate(from, {replace:true});
+    try {
+      const response = await userSignIn(data.email, data.password);
+      const getToken = await fetch(
+        `http://localhost:5000/jwt-token?email=${response.user.email}`
+      );
+      const token = await getToken.json();
+
+      if (response.user && token) {
+        localStorage.setItem("token", token.token);
+        toast.success(`Welcome ${response.user.displayName}`);
+        navigate(from, { replace: true });
+      }
+    } catch (err) {
+      toast.error(err.code);
     }
   };
 
   return (
     <section className="min-h-screen py-16 px-4">
-      <div className="w-full max-w-md p-4 rounded-md shadow sm:p-8 mx-auto border">
+      <div className="w-full max-w-md p-4 rounded-md shadow sm:p-8 mx-auto bg-slate-100">
         <h2 className="mb-3 text-2xl font-semibold text-center">
           Sign In to your account
         </h2>
         <p className="text-sm text-center">
           Don't have account?{" "}
-          <Link to="/sign-up" className="focus:underline hover:underline text-sky-500">
+          <Link
+            to="/sign-up"
+            className="focus:underline hover:underline text-sky-500"
+          >
             Sign-up here
           </Link>
         </p>
@@ -78,7 +91,7 @@ const SignIn = () => {
           <div className="text-center">
             <button
               type="submit"
-              className="px-8 py-2 font-semibold rounded-md border border-primary"
+              className="px-6 py-1 font-semibold rounded-md border border-primary hover:bg-primary hover:text-white duration-300"
             >
               Sign In
             </button>

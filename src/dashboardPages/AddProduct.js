@@ -3,8 +3,10 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/UserAuthContext";
 import useLoadCategories from "../hooks/useLoadCategories";
+import useScrollToTop from "../hooks/useScrollToTop";
 
 const AddProduct = () => {
+  useScrollToTop();
   const { userInfo } = useContext(AuthContext);
   const navigate = useNavigate();
   const [btnState, setBtnState] = useState(false);
@@ -36,16 +38,19 @@ const AddProduct = () => {
         image: imageURL.data.url,
         postedAt: new Date(),
         available: true,
-        sellerEmail: userInfo.email
+        sellerEmail: userInfo.email,
       };
-      const dbResponse = await fetch(`http://localhost:5000/products?email=${userInfo.email}`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          authorization: `bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(productData),
-      });
+      const dbResponse = await fetch(
+        `http://localhost:5000/products?email=${userInfo.email}`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            authorization: `bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify(productData),
+        }
+      );
       const dbData = await dbResponse.json();
       if (dbData.acknowledged) {
         e.target.reset();
@@ -155,11 +160,11 @@ const AddProduct = () => {
               required
               className="w-full border-gray-200 bg-gray-50 rounded-md focus:border-primary py-1.5"
             >
-              {
-                categories?.map(category => (
-                  <option key={category._id} value={category._id}>{category.title}</option>
-                ))
-              }
+              {categories?.map((category) => (
+                <option key={category._id} value={category._id}>
+                  {category.title}
+                </option>
+              ))}
             </select>
           </div>
           <div className="col-span-full sm:col-span-2">
@@ -217,11 +222,11 @@ const AddProduct = () => {
               disabled={btnState}
               className="bg-sky-400 px-8 py-1.5 rounded-md font-medium text-white"
             >
-              {
-                btnState? 
+              {btnState ? (
                 <span className="w-6 h-6 border-2 border-dashed rounded-full animate-spin border-white block"></span>
-                : <span>Add</span>
-              }
+              ) : (
+                <span>Add</span>
+              )}
             </button>
           </div>
         </div>

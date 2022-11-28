@@ -39,7 +39,13 @@ const SideNavbar = () => {
 const LinkItem = ({ to, children }) => {
   return (
     <li className="hover:font-medium text-gray-600">
-      <NavLink end className={({isActive}) => isActive? 'font-medium underline' : '' } to={to}>{children}</NavLink>
+      <NavLink
+        end
+        className={({ isActive }) => (isActive ? "font-medium underline" : "")}
+        to={to}
+      >
+        {children}
+      </NavLink>
     </li>
   );
 };

@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useContext } from "react";
 import { AuthContext } from "../context/UserAuthContext";
+import useScrollToTop from "../hooks/useScrollToTop";
 
 const MyBuyers = () => {
+  useScrollToTop();
   const { userInfo } = useContext(AuthContext);
   const { data: bookings } = useQuery({
     queryKey: ["booking"],
@@ -66,11 +68,11 @@ const MyBuyers = () => {
                   </td>
                   <td className="p-2">
                     {!item.paid ? (
-                      <button className="bg-red-400 hover:bg-red-500 p-1 rounded-md text-gray-50 font-medium">
+                      <button className="bg-red-400 hover:bg-red-500 px-2 py-1 rounded-md text-gray-50 font-medium">
                         Cancel
                       </button>
                     ) : (
-                      <button className="bg-yellow-500 hover:bg-red-600 p-1 rounded-md text-gray-50 font-medium">
+                      <button className="bg-yellow-500 hover:bg-yellow-600 px-2 py-1 rounded-md text-gray-50 font-medium">
                         Shipped
                       </button>
                     )}

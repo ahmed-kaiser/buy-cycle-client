@@ -4,8 +4,13 @@ import React, { useContext } from "react";
 import toast from "react-hot-toast";
 import { ModalContext } from "../context/GlobalModalContext";
 import { AuthContext } from "../context/UserAuthContext";
+import useScrollToTop from "../hooks/useScrollToTop";
+import ButtonGray from "./Buttons/ButtonGray";
+import ButtonGreen from "./Buttons/ButtonGreen";
+import ButtonRed from "./Buttons/ButtonRed";
 
 const MyProducts = () => {
+  useScrollToTop();
   const { userInfo } = useContext(AuthContext);
   const { handleShowModal, modalData } = useContext(ModalContext);
 
@@ -122,7 +127,11 @@ const MyProducts = () => {
                     <p>{index + 1}</p>
                   </td>
                   <td className="p-2">
-                    <img src={product.image} alt="" className="object-fill max-h-[100px] w-28" />
+                    <img
+                      src={product.image}
+                      alt=""
+                      className="object-fill max-h-[100px] w-28"
+                    />
                   </td>
                   <td className="p-2">
                     <p>{product.title}</p>
@@ -137,32 +146,17 @@ const MyProducts = () => {
                     {product.available && (
                       <>
                         {product.advertise?._id ? (
-                          <button
-                            onClick={() => removeFromAdvertiseList(product._id)}
-                            className="bg-green-400 hover:bg-green-500 py-1 px-2 rounded-md text-gray-50 font-medium"
-                          >
-                            Enabled
-                          </button>
+                          <ButtonGreen onClick={() => removeFromAdvertiseList(product._id)}>Enabled</ButtonGreen>
                         ) : (
-                          <button
-                            onClick={() => addToAdvertiseList(product._id)}
-                            className="bg-gray-400 hover:bg-gray-500 py-1 px-2 rounded-md text-gray-50 font-medium"
-                          >
-                            Disabled
-                          </button>
+                          <ButtonGray onClick={() => addToAdvertiseList(product._id)}>Disabled</ButtonGray>
                         )}
                       </>
                     )}
                   </td>
                   <td className="p-2">
-                    <button
-                      onClick={() =>
+                    <ButtonRed onClick={() =>
                         handleDeleteBtn(product.title, product._id)
-                      }
-                      className="bg-red-400 hover:bg-red-500 p-1 rounded-md text-gray-50 font-medium"
-                    >
-                      Delete
-                    </button>
+                      }>Delete</ButtonRed>
                   </td>
                 </tr>
               ))}

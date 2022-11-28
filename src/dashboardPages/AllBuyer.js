@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { ModalContext } from "../context/GlobalModalContext";
 import { AuthContext } from "../context/UserAuthContext";
+import ButtonRed from "./Buttons/ButtonRed";
 
 const AllBuyer = () => {
   const { userInfo } = useContext(AuthContext);
@@ -68,27 +69,33 @@ const AllBuyer = () => {
             </tr>
           </thead>
           <tbody>
-            {buyers?.map((item, index) => (
-              <tr key={item._id} className="border-b border-opacity-20">
+            {buyers?.map((person, index) => (
+              <tr key={person._id} className="border-b border-opacity-20">
                 <td className="p-2">
                   <p>{index + 1}</p>
                 </td>
                 <td className="p-2">
-                  <img src={item.photoURL} alt="" className="h-20 w-20" />
+                  <img
+                    src={
+                      person.photoURL ||
+                      "https://i.ibb.co/8D0XDSs/default-profile.jpg"
+                    }
+                    alt=""
+                    className="h-20 w-20"
+                  />
                 </td>
                 <td className="p-2">
-                  <p>{item.username}</p>
+                  <p>{person.username}</p>
                 </td>
                 <td className="p-2">
-                  <p>{item.email}</p>
+                  <p>{person.email}</p>
                 </td>
                 <td className="p-2">
-                  <button
-                    onClick={() => handleDeleteBtn(item.username, item._id)}
-                    className="bg-red-400 hover:bg-red-500 p-1 rounded-md text-gray-50 font-medium"
+                  <ButtonRed
+                    onClick={() => handleDeleteBtn(person.username, person._id)}
                   >
                     Delete
-                  </button>
+                  </ButtonRed>
                 </td>
               </tr>
             ))}

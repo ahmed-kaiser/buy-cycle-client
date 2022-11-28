@@ -55,9 +55,9 @@ const SocialSignUpButton = () => {
       <button
         onClick={handleGoogleSignIn}
         type="button"
-        className="flex items-center justify-center w-full p-2.5 space-x-2 border rounded-md focus:ring-2 focus:ring-offset-1"
+        className="flex items-center justify-center w-full p-2.5 space-x-2 border rounded-md focus:ring-2 focus:ring-offset-1 hover:border-primary duration-500"
       >
-        <RiGoogleFill className="h-6 w-6" />
+        <RiGoogleFill className="h-6 w-6 text-red-500" />
         <p>Sign-in with Google</p>
       </button>
     </div>

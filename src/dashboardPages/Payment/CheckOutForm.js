@@ -2,11 +2,10 @@ import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-const CheckOutForm = ({ bookingInfo, setPaymentSuccess }) => {
+const CheckOutForm = ({ bookingInfo, setPaymentSuccess, setIsProcessing }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState("");
-  const [isProcessing, setIsProcessing] = useState(false)
   const { price, buyerEmail, sellerEmail, productId } = bookingInfo;
 
   useEffect(() => {
@@ -44,7 +43,7 @@ const CheckOutForm = ({ bookingInfo, setPaymentSuccess }) => {
 
     if (cardError) {
       toast.error(cardError.message);
-    } 
+    }
     // else {
     //   console.log(paymentMethod);
     // }
@@ -73,25 +72,27 @@ const CheckOutForm = ({ bookingInfo, setPaymentSuccess }) => {
         date: new Date(),
         sellerEmail,
         transactionId: paymentIntent.id,
-        productId
-      }
+        productId,
+      };
       fetch(`http://localhost:5000/payments?email=${buyerEmail}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `bearer ${localStorage.getItem("token")}`,
-      },
-      body: JSON.stringify(paymentDetails),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if(data.acknowledged) {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(paymentDetails),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.acknowledged) {
             toast.success("Payment successfully done....");
-            setPaymentSuccess({ status: true, transactionId: paymentIntent.id });
-            event.target.reset();
-            setIsProcessing(false)
-        }
-      });
+            setPaymentSuccess({
+              status: true,
+              transactionId: paymentIntent.id,
+            });
+            setIsProcessing(false);
+          }
+        });
     }
   };
 
@@ -116,7 +117,7 @@ const CheckOutForm = ({ bookingInfo, setPaymentSuccess }) => {
       <button
         className="bg-green-500 px-6 py-1 rounded-md font-medium text-white mt-10 w-full"
         type="submit"
-        disabled={!stripe || isProcessing}
+        disabled={!stripe}
       >
         Pay
       </button>
